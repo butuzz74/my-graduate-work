@@ -1,42 +1,49 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import Search from "../main/Search";
+import Cart from "../main/Cart";
 import CategoriesList from "../main/CategoriesList";
 import CardList from "../main/CardList";
 import Pagination from "../main/Pagination";
-import Cart from "../main/Cart";
 import { MainPageContext } from "../../context/context";
-// import projectorService from "../../service/projector.service";
-import { useDispatch, useSelector } from "react-redux";
-import { getProjectorsLoadingStatus, getProjectorsRedux, loadProjectors } from "../../store/projectorsSlice";
+import goodsService from "../../service/goods.service";
 
-const Main = () => {
-  const dispatch = useDispatch();
-  const isLoading = useSelector(getProjectorsLoadingStatus());
-  const projectors = useSelector(getProjectorsRedux());
+const MainTest = () => {
   const { getSelectedGoods, getCountCart, countCart, getAccessInCart } =
     useContext(MainPageContext);
   const countItemOnPage = 4;
-  // const [projectors, setProjectors] = useState();
+  const [projectors, setProjectors] = useState();
   const [cardsCategory, setCardsCategory] = useState();
   const [cardChoice, setCardsChoice] = useState([]);
   const [activePage, setActivePage] = useState(1);
   const [value, setValue] = useState("");
+  
 
-  // const getProjectors = async () => {
-  //   try {
-  //     const content = await projectorService.fetchAll();
-  //     const newContent = Object.keys(content).map((elem) => content[elem]);
-  //     setProjectors(newContent);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   getProjectors();
-  // }, []);
+  const transformationData = (data) => {
+    let resData;
+    let dataOne = [];
+    if (!Array.isArray(data)) {
+      resData = Object.values(data);      
+      for (let el of resData) {
+        if (!Array.isArray(el)) {
+          dataOne = [...dataOne, ...Object.values(el)];
+        }
+      }
+    }
+    return dataOne
+  };
+
+  const getGoods = async () => {
+    try {
+      const content = await goodsService.fetchAll();      
+      const newContent = transformationData(content);      
+      setProjectors(newContent);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    dispatch(loadProjectors())
-  }, [])
+    getGoods();
+  }, []);
   const handleCategoryItems = (cat) => {
     setCardsCategory(projectors.filter((card) => card.type === cat));
   };
@@ -88,9 +95,7 @@ const Main = () => {
   };
   const itemOnPage = pagination(itemForPage, activePage);
   const itemOnPageCategory = pagination(itemForPageCategory, activePage);
-
-  // console.log(projectorsRedux);
-
+  
   return (
     projectors && (
       <div className="main py-3 px-3">
@@ -119,4 +124,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default MainTest;

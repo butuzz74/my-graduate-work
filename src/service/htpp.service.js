@@ -7,10 +7,10 @@ axios.defaults.baseURL = configFile.apiEndpoint;
 axios.interceptors.request.use(
   function (config) {
     if (configFile.isFireBase) {
-      const containSlash = /\/$/gi.test(config.url);
+      const containSlash = /\/$/gi.test(config.url);      
       config.url =
-        (containSlash ? config.url.slice(0, -1) : config.url) + ".json";
-    }
+        (containSlash ? config.url.slice(0, -1) : config.url) + ".json";        
+    }    
     return config;
   },
   function (error) {
@@ -47,6 +47,7 @@ const htppService = {
   post: axios.post,
   put: axios.put,
   delete: axios.delete,
+  patch: axios.patch
 };
 
 export default htppService;

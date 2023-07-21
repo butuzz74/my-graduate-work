@@ -1,11 +1,25 @@
 import { createContext, useState } from "react";
+import { getAccessToken } from "../service/localStorage.service";
+import { useHistory } from "react-router-dom";
+import projectorService from "../service/projector.service";
 
 export const MainPageContext = createContext();
 
 export const MainPageContextProvider = ({ children }) => {
   const [selectedGood, setSelectedGood] = useState([]);
   const [countCart, setCountCart] = useState(0);
-
+  const history = useHistory();
+  
+  const createNewGood = async (data) => {
+    try {
+      const content = await projectorService.create(data);
+      console.log(content)
+      history.push("/cardaddgood");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
   const getCountCart = (goods) => {
     const containsGood = selectedGood.find((elem) => elem.id === goods.id);
     if (!containsGood) {
@@ -42,7 +56,21 @@ export const MainPageContextProvider = ({ children }) => {
   const deleteItem = (id) => {
     const filteredGoods = selectedGood.filter((item) => item.id !== id);
     setSelectedGood(filteredGoods);
+    setCountCart(filteredGoods.length);
   };
+  const getAccessInCart = () => {
+    const access = getAccessToken();
+    if (access) {
+      history.push("./basket");
+    } else {
+      history.push("./signin");
+    }
+  };
+  const clearCart = () => {
+    setSelectedGood([]);
+    setCountCart(0);
+  };
+
   return (
     <MainPageContext.Provider
       value={{
@@ -52,7 +80,10 @@ export const MainPageContextProvider = ({ children }) => {
         countCart,
         incrementCountItem,
         dicrementCountItem,
-        deleteItem
+        deleteItem,
+        getAccessInCart,
+        clearCart,           
+        createNewGood,
       }}
     >
       {children}

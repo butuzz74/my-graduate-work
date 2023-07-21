@@ -1,4 +1,12 @@
 {
     "apiEndpoint": "https://my-graduate-work-7fde2-default-rtdb.europe-west1.firebasedatabase.app/",
-  "isFireBase": true
+  "isFireBase": true,
+  "category": ["projectors", "monitor", "videowall", "screen"],
+  "colums": {
+    "pos": "#",
+    "idOrder": "Номер заказа",
+    "dateOrder": "Дата заказа",
+    "amount": "Кол-во",
+    "sumOrder": "Сумма заказа"
+  }
 }

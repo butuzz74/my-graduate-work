@@ -1,14 +1,17 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import Avatar from "./Avatar";
+import { useAuth } from "../../hooks/useAuth";
 
 const NavBar = () => {
+  const { currentUser, logOut } = useAuth(); 
   return (
-    <div className="navbar d-flex flex-wrap justify-content-around">
-      <div className="text-white">
-        <h3>OOO "Системы отображения информации</h3>
+    <div className="navbar">
+      <div className="navheader text-white">
+        <p>OOO "Системы отображения информации"</p>
       </div>
-      <div>
-        <ul className="nav nav-pills mt-2 d-flex justify-content-end">
+      <div className="navline">
+        <ul className="nav nav-pills mt-2 d-flex justify-content-center me-5">
           <li className="nav-item">
             <NavLink
               to="/paymentAndDelivery"
@@ -51,6 +54,7 @@ const NavBar = () => {
           </li>
         </ul>
       </div>
+      {currentUser ? <Avatar avatarName={currentUser.nick.substring(0,1).toUpperCase()} logOut={logOut} /> : null}
     </div>
   );
 };

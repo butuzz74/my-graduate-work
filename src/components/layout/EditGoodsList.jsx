@@ -1,42 +1,50 @@
-import React, { useContext, useEffect, useState } from "react";
-import Search from "../main/Search";
-import CategoriesList from "../main/CategoriesList";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import CardList from "../main/CardList";
 import Pagination from "../main/Pagination";
-import Cart from "../main/Cart";
-import { MainPageContext } from "../../context/context";
-// import projectorService from "../../service/projector.service";
-import { useDispatch, useSelector } from "react-redux";
-import { getProjectorsLoadingStatus, getProjectorsRedux, loadProjectors } from "../../store/projectorsSlice";
+import Search from "../main/Search";
+import CategoriesList from "../main/CategoriesList";
+import projectorService from "../../service/projector.service";
 
-const Main = () => {
-  const dispatch = useDispatch();
-  const isLoading = useSelector(getProjectorsLoadingStatus());
-  const projectors = useSelector(getProjectorsRedux());
-  const { getSelectedGoods, getCountCart, countCart, getAccessInCart } =
-    useContext(MainPageContext);
+const EditGoodsList = () => {
+  const { location } = useHistory();
+  const history = useHistory();
+  const path = location.pathname;
   const countItemOnPage = 4;
-  // const [projectors, setProjectors] = useState();
+  const [projectors, setProjectors] = useState();
   const [cardsCategory, setCardsCategory] = useState();
   const [cardChoice, setCardsChoice] = useState([]);
   const [activePage, setActivePage] = useState(1);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState("");  
 
-  // const getProjectors = async () => {
-  //   try {
-  //     const content = await projectorService.fetchAll();
-  //     const newContent = Object.keys(content).map((elem) => content[elem]);
-  //     setProjectors(newContent);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   getProjectors();
-  // }, []);
+  const getProjectors = async () => {
+    try {
+      const content = await projectorService.fetchAll();
+      
+      const newContent = Object.keys(content).map((elem) => content[elem]);
+      setProjectors([...newContent]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const deleteProjectors = async (id) => {
+    try {
+      const content = await projectorService.delete(id);
+      if (content === null && cardsCategory) {
+        setProjectors((prevState) => prevState.filter((el) => el.id !== id));
+        setCardsCategory((prevState) => prevState.filter((el) => el.id !== id));
+      } else  if ( content === null) {
+        setProjectors((prevState) => prevState.filter((el) => el.id !== id));
+
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    dispatch(loadProjectors())
-  }, [])
+    getProjectors();
+  }, []);
+  
   const handleCategoryItems = (cat) => {
     setCardsCategory(projectors.filter((card) => card.type === cat));
   };
@@ -45,6 +53,9 @@ const Main = () => {
   };
   const handleOnSearch = (e) => {
     setValue(e.target.value);
+  };
+  const handleDeleteGood = (id) => {
+    deleteProjectors(id);
   };
   useEffect(() => {
     projectors &&
@@ -67,10 +78,6 @@ const Main = () => {
   const handleActivePage = (page) => {
     setActivePage(page);
   };
-  const handleCountCart = (card) => {
-    getCountCart(card);
-    getSelectedGoods(card);
-  };
   const countPage = cardsCategory
     ? Math.ceil(cardsCategory.length / countItemOnPage)
     : cardChoice.length !== 0
@@ -82,21 +89,36 @@ const Main = () => {
   const itemForPage =
     cardChoice.length !== 0 ? [...cardChoice] : projectors && [...projectors];
   const itemForPageCategory = cardsCategory && [...cardsCategory];
-
-  const pagination = (arr, num) => {
-    return arr && arr.splice((num - 1) * countItemOnPage, countItemOnPage);
+  
+  const pagination = (arr, num) => {    
+    const arrPage = arr ? arr.splice((num - 1) * countItemOnPage, countItemOnPage) : null;
+    if(arr && arrPage.length === 0){
+      setActivePage(prevState => prevState-1)
+    }
+    return arrPage;
   };
   const itemOnPage = pagination(itemForPage, activePage);
   const itemOnPageCategory = pagination(itemForPageCategory, activePage);
-
-  // console.log(projectorsRedux);
 
   return (
     projectors && (
       <div className="main py-3 px-3">
         <div className="d-flex justify-content-end align-items-baseline ">
           <Search onSearch={handleOnSearch} value={value} />
-          <Cart countCart={countCart} getAccessInCart={getAccessInCart} />
+          <button
+            type="button"
+            className="btn btn-success mt-2"
+            onClick={() => history.push("/cardeditgood")}
+          >
+            Добавить товар
+          </button>
+          <button
+            type="button"
+            className="btn btn-success mt-2"
+            onClick={() => history.push("/goodsaddtest")}
+          >
+            Добавить товар тест
+          </button>
         </div>
         <div className="content">
           <CategoriesList
@@ -106,7 +128,8 @@ const Main = () => {
           />
           <CardList
             cardsInfo={itemOnPageCategory ? itemOnPageCategory : itemOnPage}
-            onCountCart={handleCountCart}
+            path={path}
+            onDelete={handleDeleteGood}
           />
         </div>
         <Pagination
@@ -119,4 +142,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default EditGoodsList;

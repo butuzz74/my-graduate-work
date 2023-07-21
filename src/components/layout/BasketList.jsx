@@ -1,17 +1,27 @@
 import React, { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { MainPageContext } from "../../context/context";
 import BasketItem from "../BasketItem";
+import { useAuth } from "../../hooks/useAuth";
+import localStorageService from "../../service/localStorage.service";
 
-const BasketList = () => {
-  const { selectedGood } = useContext(MainPageContext);
+const BasketList = () => {  
+  const {sendOrder} = useAuth();
+  const history = useHistory();
+  const { selectedGood, clearCart } = useContext(MainPageContext);
   const totalPriceOrder = selectedGood.reduce((sum, item) => {
     return sum + +item.amount * +item.price;
   }, 0);
 
-  const handleSendOrder = () => {
-    const totalOrder = [...selectedGood, { totalPriceOrder }];
-    console.log(totalOrder);
+  const handleSendOrder = async () => {    
+    const infoOrder = { totalPriceOrder, time: Date.now()}  
+    try {
+      await sendOrder(localStorageService.getCurrentUserId(), selectedGood, infoOrder);
+      clearCart()
+      history.push("/")
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (
@@ -23,7 +33,7 @@ const BasketList = () => {
               <div className="d-flex  flex-column mx-auto justify-content-center align-items-center mt-2">
                 <div className="mb-2">
                   <h2>Корзина</h2>
-                </div>
+                </div>                
                 <ol>
                   {selectedGood.length !== 0 ? (
                     selectedGood.map((item) => (

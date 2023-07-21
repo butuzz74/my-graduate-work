@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import TextField from "../form/TextField";
+import { useAuth } from "../../hooks/useAuth";
 import { validator } from "../../utils/validator";
 import { validatorConfig } from "../../config/config";
-import TextField from "../form/TextField";
+import { getCurrentUserId } from "../../service/localStorage.service";
 
-const Login = () => {
+const EditProfile = () => {
+  const { currentUser, updateUser } = useAuth();  
   const [data, setData] = useState({
+    nick: "",
     email: "",
     password: "",
   });
@@ -16,36 +20,58 @@ const Login = () => {
       [target.name]: target.value,
     }));
   };
-
   const validate = () => {
     const errors = validator(data, validatorConfig);
     setErrors(errors);
     return Object.keys(errors).length === 0;
   };
   const isValid = Object.keys(errors).length === 0;
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const isValid = validate();
-    if (!isValid) return;
-    console.log(data);
-  };
+    if (!isValid) return;    
+    try {
+      await updateUser(getCurrentUserId(), data);
+    } catch (error) {
+      setErrors(error);
+    }
+  };  
 
+  useEffect(() => {
+    if (currentUser) {
+      setData((prevState) => ({
+        ...prevState,
+        nick: currentUser.nick,
+        email: currentUser.email,
+        password: currentUser.password,
+      }));
+    }
+  }, [currentUser]);
   useEffect(() => {
     validate();
   }, [data]);
-
   return (
     <>
       <div className="login">
         <div className="row">
           <div className="col-md-6 offset-md-3 p-4 shadow mt-5 bg-transparent text-white">
             <div className="d-flex justify-content-center">
-              <h2>Регистрация</h2>
+              <h2>Редактировать данные</h2>
             </div>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <TextField
-                  label={"Email address"}
+                  label={"Изменить nickname"}
+                  type={"text"}
+                  name={"nick"}
+                  value={data.nick}
+                  onChange={handleChange}
+                  placeholder={"Nickname"}
+                  id={"nick"}
+                  error={errors.nick}
+                />
+                <TextField
+                  label={"Изменить email address"}
                   type={"email"}
                   name={"email"}
                   value={data.email}
@@ -56,7 +82,7 @@ const Login = () => {
                 />
                 <div className="row">
                   <TextField
-                    label={"Password"}
+                    label={"Изменить password"}
                     type={"password"}
                     name={"password"}
                     value={data.password}
@@ -93,4 +119,5 @@ const Login = () => {
     </>
   );
 };
-export default Login;
+
+export default EditProfile;

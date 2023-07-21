@@ -34,6 +34,7 @@ const TextField = ({label, type, name, value, onChange, error, placeholder, id})
                         />
                     </button>
                 )}
+        {error? <div className="invalid-feedback">{error}</div> : null}
       </div>{" "}
     </>
   );

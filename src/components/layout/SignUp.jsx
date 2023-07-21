@@ -5,10 +5,11 @@ import { validatorConfig } from "../../config/config";
 import TextField from "../form/TextField";
 import { useAuth } from "../../hooks/useAuth";
 
-const SignIn = () => {
-  const {signIn, currentUser} = useAuth();
+const SignUp = () => {
+  const {signUp} = useAuth();
   const history = useHistory();
   const [data, setData] = useState({
+    nick: "",
     email: "",
     password: "",
   });
@@ -26,31 +27,43 @@ const SignIn = () => {
     return Object.keys(errors).length === 0;
   };
   const isValid = Object.keys(errors).length === 0;
-  const handleSubmit = async (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
-    const isValid = validate()
-    if(!isValid) return;    
+    const isValid = validate();
+    if (!isValid) return;
+    console.log(data);
     try {
-      await signIn(data);
+      await signUp(data);
       history.push("/");
-    } catch (error) {     
+    } catch (error) {
       setErrors(error)
     }
-  }  
+  };
 
   useEffect(() => {
     validate();
-  }, [data]);  
+  }, [data]);
+
   return (
     <>
       <div className="login">
         <div className="row">
           <div className="col-md-6 offset-md-3 p-4 shadow mt-5 bg-transparent text-white">
             <div className="d-flex justify-content-center">
-              <h2>Login</h2>
+              <h2>Регистрация</h2>
             </div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>            
               <div className="mb-4">
+              <TextField
+                  label={"Nickname"}
+                  type={"text"}
+                  name={"nick"}
+                  value={data.nick}
+                  onChange={handleChange}
+                  placeholder={"Nickname"}
+                  id={"nick"}
+                  error={errors.nick}
+                />
                 <TextField
                   label={"Email address"}
                   type={"email"}
@@ -86,15 +99,6 @@ const SignIn = () => {
             <div className="d-flex justify-content-between">
               <button type="button" className="btn btn-primary">
                 <NavLink
-                  to="/signup"
-                  className="nav-link text-decoration-underline d-flex justify-content-center text-white"
-                >
-                  {" "}
-                  Sign up
-                </NavLink>
-              </button>
-              <button type="button" className="btn btn-primary">
-                <NavLink
                   to="/"
                   className="nav-link text-decoration-underline d-flex justify-content-center"
                 >
@@ -109,5 +113,4 @@ const SignIn = () => {
     </>
   );
 };
-
-export default SignIn;
+export default SignUp;

@@ -1,4 +1,13 @@
 export const validatorConfig = {
+    nick: {
+        isRequired: {
+            message: "Поле обязательно для заполнения"
+        },
+        min: {
+            message: "Nick должен состоять минимум из 2 символов",
+            value: 2
+        }
+    },
     email: {
         isRequired: {
             message: "Электронная почта обязательна для заполнения"

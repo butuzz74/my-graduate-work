@@ -4,7 +4,7 @@ const projectorEndpoint = "projector/"
 
 const projectorService = {
     fetchAll: async () => {
-        const {data} = await htppService.get(projectorEndpoint)        
+        const {data} = await htppService.get(projectorEndpoint);              
         return data
     },
     get: async (id) => {
@@ -12,7 +12,7 @@ const projectorService = {
         return data
     },
     create: async (content) => {
-        const {data} = await htppService.post(projectorEndpoint, content)        
+        const {data} = await htppService.put(projectorEndpoint+content.id, content)        
         return data
     },
     update: async (id, content) => {
