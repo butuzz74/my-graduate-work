@@ -89,7 +89,7 @@ const Main = () => {
   const itemOnPage = pagination(itemForPage, activePage);
   const itemOnPageCategory = pagination(itemForPageCategory, activePage);
 
-  // console.log(projectorsRedux);
+  
 
   return (
     projectors && (
