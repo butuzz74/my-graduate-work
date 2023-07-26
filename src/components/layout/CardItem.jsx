@@ -1,41 +1,29 @@
 import React, { useContext } from "react";
 import { useParams, NavLink } from "react-router-dom";
-import { useEffect, useState } from "react";
 import Loader from "../common/Loader";
 import Cart from "../main/Cart";
+import { useDispatch, useSelector } from "react-redux";
+import { addGood, getCountCart } from "../../store/cartSlice";
+import { getProjectorById } from "../../store/projectorsSlice";
 import { MainPageContext } from "../../context/context";
-import projectorService from "../../service/projector.service";
 
 const CardItem = () => {
   const params = useParams();
-  const { cardId } = params;
-  const { getCountCart, getSelectedGoods, countCart } =
-    useContext(MainPageContext);
-
-  const [card, setCard] = useState();
+  const dispatch = useDispatch();
+  const { cardId } = params; 
+  const countCart = useSelector(getCountCart());
+  const card = useSelector(getProjectorById(cardId));
+  const {getAccessInCart} = useContext(MainPageContext)  
 
   const handleCountCart = (card) => {
-    getCountCart(card);
-    getSelectedGoods(card);
-  };
-
-  const getProjector = async (id) => {
-    try {
-      const content = await projectorService.get(id);
-      setCard(content);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    getProjector(cardId);
-  }, [cardId]);
+    dispatch(addGood(card))
+  }; 
 
   if (card) {
     return (
       card && (
         <div className="main">
-          <Cart countCart={countCart} />
+          <Cart countCart={countCart} getAccessInCart={getAccessInCart}/>
           <div className="card-item col d-flex align-items-stretch">
             <div className="card">
               <img
@@ -86,6 +74,7 @@ const CardItem = () => {
       </>
     );
   }
+  
 };
 
 export default CardItem;

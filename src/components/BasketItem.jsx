@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
-import { MainPageContext } from "../context/context";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { deleteGood, dicrementGood, incrementGood } from "../store/cartSlice";
 
 const BasketItem = ({ brand, model, price, amount, id }) => {
-  const { incrementCountItem, dicrementCountItem, deleteItem } =
-    useContext(MainPageContext);
+  const dispatch = useDispatch();
 
   return (
     <li>
@@ -17,16 +17,21 @@ const BasketItem = ({ brand, model, price, amount, id }) => {
         <i
           className="bi bi-caret-up"
           role="button"
-          onClick={() => incrementCountItem(id)}
+          onClick={() => dispatch(incrementGood(id))}
         ></i>
         <p>{amount}</p>
         <i
           className="bi bi-caret-down"
           role="button"
-          onClick={() => dicrementCountItem(id)}
+          onClick={() => dispatch(dicrementGood(id))}
         ></i>
         <p>{+amount * +price}</p>
-        <i className="bi bi-x-lg" role="button" onClick={()=>deleteItem(id)}></i>
+
+        <i
+          className="bi bi-x-lg"
+          role="button"
+          onClick={() => dispatch(deleteGood(id))}
+        ></i>
       </div>
     </li>
   );

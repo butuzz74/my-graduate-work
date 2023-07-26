@@ -4,47 +4,28 @@ import CardList from "../main/CardList";
 import Pagination from "../main/Pagination";
 import Search from "../main/Search";
 import CategoriesList from "../main/CategoriesList";
-import projectorService from "../../service/projector.service";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteProjector,
+  getProjectorsRedux,
+} from "../../store/projectorsSlice";
 
 const EditGoodsList = () => {
+  const dispatch = useDispatch();
   const { location } = useHistory();
   const history = useHistory();
   const path = location.pathname;
   const countItemOnPage = 4;
-  const [projectors, setProjectors] = useState();
+  const projectorsRedux = useSelector(getProjectorsRedux());  
+  const [projectors, setProjectors] = useState([]);
   const [cardsCategory, setCardsCategory] = useState();
   const [cardChoice, setCardsChoice] = useState([]);
   const [activePage, setActivePage] = useState(1);
-  const [value, setValue] = useState("");  
+  const [value, setValue] = useState("");
 
-  const getProjectors = async () => {
-    try {
-      const content = await projectorService.fetchAll();
-      
-      const newContent = Object.keys(content).map((elem) => content[elem]);
-      setProjectors([...newContent]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const deleteProjectors = async (id) => {
-    try {
-      const content = await projectorService.delete(id);
-      if (content === null && cardsCategory) {
-        setProjectors((prevState) => prevState.filter((el) => el.id !== id));
-        setCardsCategory((prevState) => prevState.filter((el) => el.id !== id));
-      } else  if ( content === null) {
-        setProjectors((prevState) => prevState.filter((el) => el.id !== id));
-
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    getProjectors();
-  }, []);
-  
+  useEffect(()=>{
+    setProjectors(projectorsRedux);
+  }, [projectorsRedux])
   const handleCategoryItems = (cat) => {
     setCardsCategory(projectors.filter((card) => card.type === cat));
   };
@@ -54,9 +35,11 @@ const EditGoodsList = () => {
   const handleOnSearch = (e) => {
     setValue(e.target.value);
   };
+
   const handleDeleteGood = (id) => {
-    deleteProjectors(id);
+    dispatch(deleteProjector(id));
   };
+
   useEffect(() => {
     projectors &&
       setCardsChoice(
@@ -78,6 +61,7 @@ const EditGoodsList = () => {
   const handleActivePage = (page) => {
     setActivePage(page);
   };
+
   const countPage = cardsCategory
     ? Math.ceil(cardsCategory.length / countItemOnPage)
     : cardChoice.length !== 0
@@ -85,23 +69,28 @@ const EditGoodsList = () => {
     : projectors
     ? Math.ceil(projectors.length / countItemOnPage)
     : 0;
-
   const itemForPage =
-    cardChoice.length !== 0 ? [...cardChoice] : projectors && [...projectors];
+    cardChoice.length !== 0 && projectors.length !== 0
+      ? [...cardChoice]
+      : [...projectors];
   const itemForPageCategory = cardsCategory && [...cardsCategory];
-  
+
   const pagination = (arr, num) => {    
-    const arrPage = arr ? arr.splice((num - 1) * countItemOnPage, countItemOnPage) : null;
-    if(arr && arrPage.length === 0){
-      setActivePage(prevState => prevState-1)
+    if (arr && arr.length !== 0) {
+      const arrPage = arr.splice((num - 1) * countItemOnPage, countItemOnPage);
+      if (arr && arrPage.length === 0) {
+        setActivePage((prevState) => prevState - 1);
+      }
+      return arrPage;
     }
-    return arrPage;
   };
+
   const itemOnPage = pagination(itemForPage, activePage);
   const itemOnPageCategory = pagination(itemForPageCategory, activePage);
 
   return (
-    projectors && (
+    projectors && projectors.length !== 0 &&
+    (itemOnPage || itemOnPageCategory) && (
       <div className="main py-3 px-3">
         <div className="d-flex justify-content-end align-items-baseline ">
           <Search onSearch={handleOnSearch} value={value} />
@@ -121,13 +110,13 @@ const EditGoodsList = () => {
           </button>
         </div>
         <div className="content">
-          <CategoriesList
+          <CategoriesList            
             cardsInfo={projectors}
             onCategoryItems={handleCategoryItems}
             onBack={handleOnBack}
           />
           <CardList
-            cardsInfo={itemOnPageCategory ? itemOnPageCategory : itemOnPage}
+            cardsInfo={itemOnPageCategory ? itemOnPageCategory : itemOnPage}            
             path={path}
             onDelete={handleDeleteGood}
           />

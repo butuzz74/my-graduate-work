@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loadProjectors } from "./store/projectorsSlice";
 
 import Main from "./components/layout/Main";
 import NotFound from "./components/layout/NotFound";
@@ -23,8 +25,17 @@ import CardAddGood from "./components/layout/CardAddGood";
 import EditGoodsList from "./components/layout/EditGoodsList";
 import GoodsAddTest from "./components/layout/GoodsAddTest";
 import MainTest from "./components/layout/MainTest";
+import { getCurrentUser } from "./store/usersSlice";
+import localStorageService from "./service/localStorage.service";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(loadProjectors());
+    if (localStorageService.getAccessToken()) {
+      dispatch(getCurrentUser());
+    }
+  }, []);
   return (
     <div className="maincontainer">
       <AuthProvider>
@@ -33,16 +44,16 @@ function App() {
           <MainPageContextProvider>
             <Switch>
               <Route path="/" exact component={Main} />
-              <Route path="/maintest" component={MainTest}/>
-              <Route path="/cardaddgood" component={EditGoodsList}/>
-              <Route path="/goodsaddtest" component={GoodsAddTest}/>
-              <Route path="/cardeditgood/:cardId?" component={CardAddGood}/>
-              <Route path="/ordercard" component={OrderCard}/>
-              <Route path="/orderslist" component={OrdersList}/>
+              <Route path="/maintest" component={MainTest} />
+              <Route path="/cardaddgood" component={EditGoodsList} />
+              <Route path="/goodsaddtest" component={GoodsAddTest} />
+              <Route path="/cardeditgood/:cardId?" component={CardAddGood} />
+              <Route path="/ordercard" component={OrderCard} />
+              <Route path="/orderslist" component={OrdersList} />
               <Route path="/basket" component={BasketList} />
               <Route path="/signup" component={SignUp} />
-              <Route path="/profile" component={ProfileCard}/>
-              <Route path="/edit" component={EditProfile}/>
+              <Route path="/profile" component={ProfileCard} />
+              <Route path="/edit" component={EditProfile} />
               <Route
                 path="/paymentAndDelivery"
                 component={PaymentAndDelivery}

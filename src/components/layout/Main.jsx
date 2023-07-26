@@ -5,38 +5,24 @@ import CardList from "../main/CardList";
 import Pagination from "../main/Pagination";
 import Cart from "../main/Cart";
 import { MainPageContext } from "../../context/context";
-// import projectorService from "../../service/projector.service";
 import { useDispatch, useSelector } from "react-redux";
-import { getProjectorsLoadingStatus, getProjectorsRedux, loadProjectors } from "../../store/projectorsSlice";
+import { getProjectorsLoadingStatus, getProjectorsRedux } from "../../store/projectorsSlice";
+import { addGood, getCountCart } from "../../store/cartSlice";
 
 const Main = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector(getProjectorsLoadingStatus());
   const projectors = useSelector(getProjectorsRedux());
-  const { getSelectedGoods, getCountCart, countCart, getAccessInCart } =
+  const countCart = useSelector(getCountCart());  
+  const { getAccessInCart } =
     useContext(MainPageContext);
-  const countItemOnPage = 4;
-  // const [projectors, setProjectors] = useState();
+  const countItemOnPage = 4;  
   const [cardsCategory, setCardsCategory] = useState();
   const [cardChoice, setCardsChoice] = useState([]);
   const [activePage, setActivePage] = useState(1);
   const [value, setValue] = useState("");
-
-  // const getProjectors = async () => {
-  //   try {
-  //     const content = await projectorService.fetchAll();
-  //     const newContent = Object.keys(content).map((elem) => content[elem]);
-  //     setProjectors(newContent);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   getProjectors();
-  // }, []);
-  useEffect(() => {
-    dispatch(loadProjectors())
-  }, [])
+ 
+ 
   const handleCategoryItems = (cat) => {
     setCardsCategory(projectors.filter((card) => card.type === cat));
   };
@@ -66,10 +52,9 @@ const Main = () => {
   }, [value]);
   const handleActivePage = (page) => {
     setActivePage(page);
-  };
+  };  
   const handleCountCart = (card) => {
-    getCountCart(card);
-    getSelectedGoods(card);
+    dispatch(addGood(card))
   };
   const countPage = cardsCategory
     ? Math.ceil(cardsCategory.length / countItemOnPage)

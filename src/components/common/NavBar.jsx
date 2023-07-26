@@ -2,9 +2,16 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import Avatar from "./Avatar";
 import { useAuth } from "../../hooks/useAuth";
+import { useDispatch, useSelector } from "react-redux";
+import { getIsLoggedIn, logOut } from "../../store/usersSlice";
 
 const NavBar = () => {
-  const { currentUser, logOut } = useAuth(); 
+  const dispatch = useDispatch();
+  const currentUser = useSelector(getIsLoggedIn());
+  const handleLogOut = () => {
+    dispatch(logOut())
+  }
+  // const { currentUser, logOut } = useAuth(); 
   return (
     <div className="navbar">
       <div className="navheader text-white">
@@ -54,7 +61,7 @@ const NavBar = () => {
           </li>
         </ul>
       </div>
-      {currentUser ? <Avatar avatarName={currentUser.nick.substring(0,1).toUpperCase()} logOut={logOut} /> : null}
+      {currentUser ? <Avatar avatarName={currentUser.nick.substring(0,1).toUpperCase()} logOut={handleLogOut} /> : null}
     </div>
   );
 };

@@ -4,9 +4,12 @@ import { validator } from "../../utils/validator";
 import { validatorConfig } from "../../config/config";
 import TextField from "../form/TextField";
 import { useAuth } from "../../hooks/useAuth";
+import { useDispatch } from "react-redux";
+import { signUp } from "../../store/usersSlice";
 
 const SignUp = () => {
-  const {signUp} = useAuth();
+  // const {signUp} = useAuth();
+  const dispatch = useDispatch();
   const history = useHistory();
   const [data, setData] = useState({
     nick: "",
@@ -27,17 +30,18 @@ const SignUp = () => {
     return Object.keys(errors).length === 0;
   };
   const isValid = Object.keys(errors).length === 0;
-  const handleSubmit =async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const isValid = validate();
-    if (!isValid) return;
-    console.log(data);
-    try {
-      await signUp(data);
-      history.push("/");
-    } catch (error) {
-      setErrors(error)
-    }
+    if (!isValid) return;   
+    dispatch(signUp(data));
+    history.push("/")
+    // try {
+    //   await signUp(data);
+    //   history.push("/");
+    // } catch (error) {
+    //   setErrors(error)
+    // }
   };
 
   useEffect(() => {

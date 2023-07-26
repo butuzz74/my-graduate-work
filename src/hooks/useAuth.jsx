@@ -31,70 +31,70 @@ const AuthProvider = ({ children }) => {
     }
   }, [error]);
 
-  async function signUp({ email, password, nick }) {
-    const key = "AIzaSyBneQKLuQ2JnTeRlBTBmgDFY6kO_TxJ8yE";
-    const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}`;
-    try {
-      const { data } = await httpAuth.post(url, {
-        email,
-        password,
-        nick,
-        returnSecureToken: true,
-      });
-      setTokens(data);
-      await createUser({ _id: data.localId, email, password, nick });
-    } catch (error) {
-      errorCatcher(error);
-      const { code, message } = error.response.data.error;
-      if (code === 400) {
-        if (message === "EMAIL_EXISTS") {
-          const errorObject = {
-            email: "Пользователь с таким email уже существует",
-          };
-          throw errorObject;
-        }
-      }
-    }
-  }
-  async function signIn({ email, password }) {
-    const key = "AIzaSyBneQKLuQ2JnTeRlBTBmgDFY6kO_TxJ8yE";
-    const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`;
-    try {
-      const { data } = await httpAuth.post(url, {
-        email,
-        password,
-        returnSecureToken: true,
-      });
-      setTokens(data);
-      await getUserData();
-    } catch (error) {
-      const { code, message } = error.response.data.error;
-      if (code === 400) {
-        if (message === "EMAIL_NOT_FOUND") {
-          const errorObject = {
-            email:
-              "Пользователь с таким email не зарегестрирован. Зарегистрируйтесь!",
-          };
-          throw errorObject;
-        }
-        if (message === "INVALID_PASSWORD") {
-          const errorObject = {
-            password: "Не правильный пароль!",
-          };
-          throw errorObject;
-        }
-      }
-    }
-  }
+  // async function signUp({ email, password, nick }) {
+  //   const key = "AIzaSyBneQKLuQ2JnTeRlBTBmgDFY6kO_TxJ8yE";
+  //   const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}`;
+  //   try {
+  //     const { data } = await httpAuth.post(url, {
+  //       email,
+  //       password,
+  //       nick,
+  //       returnSecureToken: true,
+  //     });
+  //     setTokens(data);
+  //     await createUser({ _id: data.localId, email, password, nick });
+  //   } catch (error) {
+  //     errorCatcher(error);
+  //     const { code, message } = error.response.data.error;
+  //     if (code === 400) {
+  //       if (message === "EMAIL_EXISTS") {
+  //         const errorObject = {
+  //           email: "Пользователь с таким email уже существует",
+  //         };
+  //         throw errorObject;
+  //       }
+  //     }
+  //   }
+  // }
+  // async function signIn({ email, password }) {
+  //   const key = "AIzaSyBneQKLuQ2JnTeRlBTBmgDFY6kO_TxJ8yE";
+  //   const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`;
+  //   try {
+  //     const { data } = await httpAuth.post(url, {
+  //       email,
+  //       password,
+  //       returnSecureToken: true,
+  //     });
+  //     setTokens(data);
+  //     await getUserData();
+  //   } catch (error) {
+  //     const { code, message } = error.response.data.error;
+  //     if (code === 400) {
+  //       if (message === "EMAIL_NOT_FOUND") {
+  //         const errorObject = {
+  //           email:
+  //             "Пользователь с таким email не зарегестрирован. Зарегистрируйтесь!",
+  //         };
+  //         throw errorObject;
+  //       }
+  //       if (message === "INVALID_PASSWORD") {
+  //         const errorObject = {
+  //           password: "Не правильный пароль!",
+  //         };
+  //         throw errorObject;
+  //       }
+  //     }
+  //   }
+  // }
 
-  async function createUser(data) {
-    try {
-      const content = await userService.create(data);      
-      setCurrentUser(content);
-    } catch (error) {
-      errorCatcher(error);
-    }
-  }
+  // async function createUser(data) {
+  //   try {
+  //     const content = await userService.create(data);      
+  //     setCurrentUser(content);
+  //   } catch (error) {
+  //     errorCatcher(error);
+  //   }
+  // }
   async function updateUser(id, data) {    
     try {
       const content = await userService.update(id, data);           
@@ -103,16 +103,16 @@ const AuthProvider = ({ children }) => {
       errorCatcher(error);
     }
   }
-  async function getUserData() {
-    try {
-      const content = await userService.getCurrentUser();
-      setCurrentUser(content);
-    } catch (error) {
-      errorCatcher(error);
-    } finally {
-      setIsLoading(false);
-    }
-  }
+  // async function getUserData() {
+  //   try {
+  //     const content = await userService.getCurrentUser();
+  //     setCurrentUser(content);
+  //   } catch (error) {
+  //     errorCatcher(error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // }
   async function sendOrder(id, data, info) {
     try {
       const content = await orderService.create(id, data, info);
@@ -133,20 +133,21 @@ const AuthProvider = ({ children }) => {
       setIsLoading(false);
     }
   }
-  const logOut = () => {
-    localStorageService.remoteCurrentUserInfo();
-    setCurrentUser(null);
-    history.push("/");    
-  }
-  useEffect(() => {
-    if (localStorageService.getAccessToken()) {
-      getUserData();
-    } else {
-      setIsLoading(false);
-    }
-  }, []);
+  // const logOut = () => {
+  //   localStorageService.remoteCurrentUserInfo();
+  //   setCurrentUser(null);
+  //   history.push("/");    
+  // }
+  // useEffect(() => {
+  //   if (localStorageService.getAccessToken()) {
+  //     getUserData();
+  //   } else {
+  //     setIsLoading(false);
+  //   }
+  // }, []);
   return (
-    <AuthContext.Provider value={{ signUp, signIn, currentUser, logOut, updateUser, sendOrder, getOrderById }}>
+    // <AuthContext.Provider value={{ signUp, signIn, currentUser, logOut, updateUser, sendOrder, getOrderById }}>
+    <AuthContext.Provider value={{ currentUser, updateUser, sendOrder, getOrderById }}>
       {children}
     </AuthContext.Provider>
   );

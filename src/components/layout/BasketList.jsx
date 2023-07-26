@@ -1,14 +1,16 @@
-import React, { useContext } from "react";
+import React from "react";
 import { NavLink, useHistory } from "react-router-dom";
-import { MainPageContext } from "../../context/context";
 import BasketItem from "../BasketItem";
 import { useAuth } from "../../hooks/useAuth";
 import localStorageService from "../../service/localStorage.service";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCart, getSelectedGood } from "../../store/cartSlice";
 
 const BasketList = () => {  
+  const dispatch = useDispatch();
   const {sendOrder} = useAuth();
   const history = useHistory();
-  const { selectedGood, clearCart } = useContext(MainPageContext);
+  const selectedGood = useSelector(getSelectedGood());  
   const totalPriceOrder = selectedGood.reduce((sum, item) => {
     return sum + +item.amount * +item.price;
   }, 0);
@@ -17,7 +19,7 @@ const BasketList = () => {
     const infoOrder = { totalPriceOrder, time: Date.now()}  
     try {
       await sendOrder(localStorageService.getCurrentUserId(), selectedGood, infoOrder);
-      clearCart()
+      dispatch(clearCart())
       history.push("/")
     } catch (error) {
       console.log(error)

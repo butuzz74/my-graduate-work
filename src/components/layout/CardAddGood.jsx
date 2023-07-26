@@ -1,16 +1,22 @@
-import React, { useState, useEffect, useContext } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink, useHistory } from "react-router-dom";
 import TextField from "../form/TextField";
 import { useParams } from "react-router-dom";
-import projectorService from "../../service/projector.service";
 import { nanoid } from "nanoid";
-import { MainPageContext } from "../../context/context";
 import TextAreaField from "../form/TextAreaField";
 import SelectField from "../form/SelectField";
-import configFile from "../../config/config.json"
+import configFile from "../../config/config.json";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createProjector,
+  getProjectorById,
+  updatedProjector,
+} from "../../store/projectorsSlice";
 
 const CardAddGood = () => {
   const { cardId } = useParams();
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const initialState = {
     category: "",
@@ -23,18 +29,9 @@ const CardAddGood = () => {
     type: "",
   };
   const [data, setData] = useState(initialState);
-  const { createNewGood } = useContext(MainPageContext);
-  const getProjectors = async (id) => {
-    try {
-      const content = await projectorService.get(id);
-      setData(content);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+  const selectProjector = useSelector(getProjectorById(cardId));
   useEffect(() => {
-    cardId && getProjectors(cardId);
+    setData((prevState) => ({ ...prevState, ...selectProjector }));
   }, []);
 
   const handleChange = ({ target }) => {
@@ -43,15 +40,19 @@ const CardAddGood = () => {
       [target.name]: target.value,
     }));
   };
-  const handleSubmit = async (e) => {
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const newGood = { ...data, id: nanoid() };    
-    try {
-      await createNewGood(newGood);
-    } catch (error) {
-      console.log(error);
+    if (cardId) {
+      const newGood = { ...data, id: cardId };
+      dispatch(updatedProjector(cardId, newGood));
+    } else {
+      const newGood = { ...data, id: nanoid() };
+      dispatch(createProjector(newGood));
     }
+    history.push("/cardaddgood");
   };
+
   return (
     <div className="login">
       <div className="row">
