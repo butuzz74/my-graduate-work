@@ -11,12 +11,12 @@ import {
   getProjectorsRedux,
 } from "../../store/projectorsSlice";
 import { addGood, clearCart, getCountCart } from "../../store/cartSlice";
-// import goodsService from "../../service/goods.service";
+import goodsService from "../../service/goods.service";
 
 const Main = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector(getProjectorsLoadingStatus());
-  const projectors = useSelector(getProjectorsRedux());
+  // const projectors = useSelector(getProjectorsRedux());
   const countCart = useSelector(getCountCart());
   const { getAccessInCart } = useContext(MainPageContext);
   const countItemOnPage = 4;
@@ -26,35 +26,35 @@ const Main = () => {
   const [value, setValue] = useState("");
 
 
-  // const [projectors, setProjectors] = useState();
-  // const transformationData = (data) => {
-  //   let resData;
-  //   let dataOne = [];
-  //   if (!Array.isArray(data)) {
-  //     resData = Object.values(data);      
-  //     for (let el of resData) {
-  //       if (!Array.isArray(el)) {
-  //         dataOne = [...dataOne, ...Object.values(el)];
-  //       }
-  //     }
-  //   }
-  //   return dataOne
-  // };
+  const [projectors, setProjectors] = useState();
+  const transformationData = (data) => {
+    let resData;
+    let dataOne = [];
+    if (!Array.isArray(data)) {
+      resData = Object.values(data);      
+      for (let el of resData) {
+        if (!Array.isArray(el)) {
+          dataOne = [...dataOne, ...Object.values(el)];
+        }
+      }
+    }
+    return dataOne
+  };
 
-  // const getGoods = async () => {
-  //   try {
-  //     const content = await goodsService.fetchAll(); 
-  //     console.log(content)     
-  //     const newContent = transformationData(content); 
-  //     console.log(newContent)     
-  //     setProjectors(newContent);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   getGoods();
-  // }, []);
+  const getGoods = async () => {
+    try {
+      const content = await goodsService.fetchAll(); 
+      console.log(content)     
+      const newContent = transformationData(content); 
+      console.log(newContent)     
+      setProjectors(newContent);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getGoods();
+  }, []);
 
 
   const handleCategoryItems = (cat) => {
