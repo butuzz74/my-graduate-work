@@ -1,14 +1,14 @@
 import React from 'react';
-import configFile from "../../config/config.json"
 
-const TableHeader = () => {
+
+const TableHeader = ({date}) => {
     return (
         <thead className="border-bottom-0 border-2">
         <tr>
-        {Object.keys(configFile.colums).map((colum) => (
+        {Object.keys(date).map((colum) => (
                     <th key={colum}                    
                     >
-                        {configFile.colums[colum]}
+                        {date[colum]}
                         
                     </th>
                 ))}

@@ -15,9 +15,9 @@ const ProfileCard = () => {
   // }  
   return (
     <>
-      <div className="login">
-        <div className="row">
-          <div className="col-md-6 offset-md-3 p-4 shadow mt-5 bg-white">
+      <div className="login d-flex justify-content-center align-items-center">
+        <div className="row justify-content-md-center">
+          <div className="col-md-auto md-3 p-4 shadow mt-5 bg-white mb-5 rounded-4">
             <div className="d-flex justify-content-center">
               <div className="d-flex  flex-column mx-auto justify-content-center align-items-center mt-2">
                 <div className="mb-2">

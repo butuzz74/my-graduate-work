@@ -16,7 +16,7 @@ import Footer from "./components/common/Footer";
 import BasketList from "./components/layout/BasketList";
 import { MainPageContextProvider } from "./context/context";
 import AuthProvider from "./hooks/useAuth";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import ProfileCard from "./components/layout/ProfileCard";
 import EditProfile from "./components/layout/EditProfile";
 import OrdersList from "./components/layout/OrdersList";
@@ -27,14 +27,17 @@ import GoodsAddTest from "./components/layout/GoodsAddTest";
 import MainTest from "./components/layout/MainTest";
 import { getCurrentUser } from "./store/usersSlice";
 import localStorageService from "./service/localStorage.service";
+import OrderItem from "./components/layout/OrderItem";
+import "react-toastify/dist/ReactToastify.css"
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadProjectors());
+    toast("Загрузка произошла успешно!")        
     if (localStorageService.getAccessToken()) {
       dispatch(getCurrentUser());
-    }
+    }    
   }, []);
   return (
     <div className="maincontainer">
@@ -44,6 +47,7 @@ function App() {
           <MainPageContextProvider>
             <Switch>
               <Route path="/" exact component={Main} />
+              <Route path="/order/:orderId" component={OrderItem}/>
               <Route path="/maintest" component={MainTest} />
               <Route path="/cardaddgood" component={EditGoodsList} />
               <Route path="/goodsaddtest" component={GoodsAddTest} />

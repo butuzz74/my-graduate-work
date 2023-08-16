@@ -1,17 +1,20 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import Avatar from "./Avatar";
-import { useAuth } from "../../hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { getIsLoggedIn, logOut } from "../../store/usersSlice";
+import { clearListOrder } from "../../store/orderSlice";
 
 const NavBar = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const currentUser = useSelector(getIsLoggedIn());
   const handleLogOut = () => {
-    dispatch(logOut())
+    dispatch(logOut());
+    dispatch(clearListOrder());
+    history.push("/") 
   }
-  // const { currentUser, logOut } = useAuth(); 
+  
   return (
     <div className="navbar">
       <div className="navheader text-white">

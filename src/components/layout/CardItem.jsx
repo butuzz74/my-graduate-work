@@ -3,27 +3,32 @@ import { useParams, NavLink } from "react-router-dom";
 import Loader from "../common/Loader";
 import Cart from "../main/Cart";
 import { useDispatch, useSelector } from "react-redux";
-import { addGood, getCountCart } from "../../store/cartSlice";
+import { clearCart, addGood, getCountCart } from "../../store/cartSlice";
 import { getProjectorById } from "../../store/projectorsSlice";
 import { MainPageContext } from "../../context/context";
 
 const CardItem = () => {
   const params = useParams();
   const dispatch = useDispatch();
-  const { cardId } = params; 
+  const { cardId } = params;
   const countCart = useSelector(getCountCart());
   const card = useSelector(getProjectorById(cardId));
-  const {getAccessInCart} = useContext(MainPageContext)  
+  const { getAccessInCart } = useContext(MainPageContext);
 
   const handleCountCart = (card) => {
-    dispatch(addGood(card))
-  }; 
+    dispatch(addGood(card));
+  };
+  const handleClearCart = () => {
+    dispatch(clearCart());
+  };
 
   if (card) {
     return (
       card && (
         <div className="main">
-          <Cart countCart={countCart} getAccessInCart={getAccessInCart}/>
+          <div className="d-flex justify-content-end pt-5 pe-5">
+            <Cart countCart={countCart} getAccessInCart={getAccessInCart} onClearCart={handleClearCart}/>
+          </div>
           <div className="card-item col d-flex align-items-stretch">
             <div className="card">
               <img
@@ -74,7 +79,6 @@ const CardItem = () => {
       </>
     );
   }
-  
 };
 
 export default CardItem;

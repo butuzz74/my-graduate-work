@@ -4,7 +4,7 @@ const projectorEndpoint = "goods/"
 
 const goodsService = {
     fetchAll: async () => {
-        const {data} = await htppService.get(projectorEndpoint)        
+        const {data} = await htppService.get(projectorEndpoint)              
         return data
     },
     get: async (path, id) => {

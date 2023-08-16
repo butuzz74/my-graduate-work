@@ -1,6 +1,5 @@
-import { createSlice, createAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import localStorageService from "../service/localStorage.service";
-import history from "../utils/history";
 import authService from "../service/auth.service";
 import userService from "../service/user.service";
 
@@ -130,21 +129,28 @@ export const signIn =
     }
   };
 export const getCurrentUser = () => async (dispatch) => {
+  dispatch(authRequested());
   try {
     const content = await userService.getCurrentUser();    
     dispatch(currentUserCreated(content));
   } catch (error) {
-    dispatch(authRequestFailed(error.message));
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    dispatch(authRequestFailed(error.message));    
   }
 };
 
+export const updateCurrentUser = (id, data) => async (dispatch) => {
+  dispatch(authRequested());
+  try {
+    const content = await userService.update(id, data);           
+    dispatch(currentUserCreated(content));
+  } catch (error) {
+    dispatch(authRequestFailed(error.message));
+  }
+}
+
 export const logOut = () => (dispatch) => {
   localStorageService.remoteCurrentUserInfo();
-  dispatch(usersLoggedOut());
-  history.push("/");
+  dispatch(usersLoggedOut()); 
 };
 
 export const getIsLoggedIn = () => (state) => state.users.entities;

@@ -1,36 +1,30 @@
 import React, { useEffect, useState } from "react";
 import OrderItem from "../order/orderItem";
-import { useAuth } from "../../hooks/useAuth";
 import localStorageService from "../../service/localStorage.service";
 import { NavLink, useHistory } from "react-router-dom";
 import TableHeader from "../table/TableHeader";
 import TableBody from "../table/TableBody";
+import { useDispatch, useSelector } from "react-redux";
+import { getOrderListCurrentUser, orderListCurrentUser } from "../../store/orderSlice";
+import configFile from "../../config/config.json"
 
 const OrdersList = () => {
-  const { getOrderById } = useAuth();
+  const dispatch = useDispatch();
+  const orderRedux = useSelector(getOrderListCurrentUser());  
   const [order, setOrder] = useState();
-  const history = useHistory();
-
-  const handleGetOrder = async () => {
-    try {
-      const data = await getOrderById(localStorageService.getCurrentUserId());
-      setOrder(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const handleGoToOrderCard = () => {
-    history.push("/ordercard");
-  };
+  
   useEffect(() => {
-    handleGetOrder();
+    dispatch(orderListCurrentUser(localStorageService.getCurrentUserId()))
   }, []);
-  console.log(order);
+  useEffect(() => {
+    setOrder(orderRedux)
+  }, [orderRedux]);
+ 
   return (
     <>
-      <div className="login">
-        <div className="row">
-          <div className="col-md-6 offset-md-3 p-4 shadow mt-5 bg-white mb-5">
+      <div className="login d-flex justify-content-center align-items-center">
+        <div className="row justify-content-md-center">
+          <div className="col-md-auto md-3 p-4 shadow mt-5 bg-white mb-5 rounded-4">
             <div className="d-flex justify-content-center">
               <div className="d-flex  flex-column mx-auto justify-content-center align-items-center mt-2">
                 {order ? (
@@ -38,9 +32,9 @@ const OrdersList = () => {
                     <div className="mb-2">
                       <h2>Список заказов</h2>
                     </div>
-                    <div class="table-responsive">
+                    <div className="table-responsive">
                       <table className="table align-middle">
-                        <TableHeader />
+                        <TableHeader date={configFile.columsForOrderList}/>
                         <TableBody data={order} />
                       </table>
                     </div>

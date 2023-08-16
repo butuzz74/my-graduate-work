@@ -7,7 +7,7 @@ const AboutUs = () => {
       className="container d-flex flex-column justify-content-center text-center"
       style={{ width: "80%" }}
     >
-      <h1>O нас</h1>
+      <h1 className="mt-3">O нас</h1>
       <p>
         Компания ООО "Системы Отображения Информации" - официальный эксклюзивный
         дистрибьютор ( импортер ) корпораций SHARP / NEC, Optoma ( Coretronic

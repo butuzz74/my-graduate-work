@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import TextField from "../form/TextField";
-import { useAuth } from "../../hooks/useAuth";
 import { validator } from "../../utils/validator";
 import { validatorConfig } from "../../config/config";
 import { getCurrentUserId } from "../../service/localStorage.service";
+import { useDispatch, useSelector } from "react-redux";
+import { getIsLoggedIn, updateCurrentUser } from "../../store/usersSlice";
 
 const EditProfile = () => {
-  const { currentUser, updateUser } = useAuth();  
+  const dispatch = useDispatch();
+  const currentUser = useSelector(getIsLoggedIn());
   const [data, setData] = useState({
     nick: "",
     email: "",
@@ -26,17 +28,12 @@ const EditProfile = () => {
     return Object.keys(errors).length === 0;
   };
   const isValid = Object.keys(errors).length === 0;
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const isValid = validate();
-    if (!isValid) return;    
-    try {
-      await updateUser(getCurrentUserId(), data);
-    } catch (error) {
-      setErrors(error);
-    }
-  };  
-
+    if (!isValid) return;
+    dispatch(updateCurrentUser(getCurrentUserId(), data));
+  };
   useEffect(() => {
     if (currentUser) {
       setData((prevState) => ({

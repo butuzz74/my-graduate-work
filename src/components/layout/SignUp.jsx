@@ -3,12 +3,10 @@ import { NavLink, useHistory } from "react-router-dom";
 import { validator } from "../../utils/validator";
 import { validatorConfig } from "../../config/config";
 import TextField from "../form/TextField";
-import { useAuth } from "../../hooks/useAuth";
 import { useDispatch } from "react-redux";
 import { signUp } from "../../store/usersSlice";
 
-const SignUp = () => {
-  // const {signUp} = useAuth();
+const SignUp = () => {  
   const dispatch = useDispatch();
   const history = useHistory();
   const [data, setData] = useState({
@@ -35,13 +33,7 @@ const SignUp = () => {
     const isValid = validate();
     if (!isValid) return;   
     dispatch(signUp(data));
-    history.push("/")
-    // try {
-    //   await signUp(data);
-    //   history.push("/");
-    // } catch (error) {
-    //   setErrors(error)
-    // }
+    history.push("/")    
   };
 
   useEffect(() => {

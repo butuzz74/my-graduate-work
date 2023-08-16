@@ -34,16 +34,13 @@ const MainTest = () => {
 
   const getGoods = async () => {
     try {
-      const content = await goodsService.fetchAll();      
-      const newContent = transformationData(content);      
+      const content = await goodsService.fetchAll();       
+      const newContent = transformationData(content);       
       setProjectors(newContent);
     } catch (error) {
       console.log(error);
     }
   };
-  useEffect(() => {
-    getGoods();
-  }, []);
   const handleCategoryItems = (cat) => {
     setCardsCategory(projectors.filter((card) => card.type === cat));
   };
@@ -59,44 +56,47 @@ const MainTest = () => {
         projectors.filter(
           (elem) =>
             elem.type
-              .split(" ")
-              .join("")
-              .toLowerCase()
-              .includes(value.split(" ").join("").toLowerCase()) ||
+            .split(" ")
+            .join("")
+            .toLowerCase()
+            .includes(value.split(" ").join("").toLowerCase()) ||
             elem.model
-              .split(" ")
-              .join("")
-              .toLowerCase()
-              .includes(value.split(" ").join("").toLowerCase())
-        )
-      );
-  }, [value]);
-  const handleActivePage = (page) => {
-    setActivePage(page);
-  };
-  const handleCountCart = (card) => {
-    getCountCart(card);
-    getSelectedGoods(card);
-  };
-  const countPage = cardsCategory
-    ? Math.ceil(cardsCategory.length / countItemOnPage)
-    : cardChoice.length !== 0
-    ? Math.ceil(cardChoice.length / countItemOnPage)
-    : projectors
-    ? Math.ceil(projectors.length / countItemOnPage)
-    : 0;
-
-  const itemForPage =
-    cardChoice.length !== 0 ? [...cardChoice] : projectors && [...projectors];
-  const itemForPageCategory = cardsCategory && [...cardsCategory];
-
-  const pagination = (arr, num) => {
-    return arr && arr.splice((num - 1) * countItemOnPage, countItemOnPage);
-  };
-  const itemOnPage = pagination(itemForPage, activePage);
-  const itemOnPageCategory = pagination(itemForPageCategory, activePage);
-  
-  return (
+            .split(" ")
+            .join("")
+            .toLowerCase()
+            .includes(value.split(" ").join("").toLowerCase())
+            )
+            );
+          }, [value]);
+          const handleActivePage = (page) => {
+            setActivePage(page);
+          };
+          const handleCountCart = (card) => {
+            getCountCart(card);
+            getSelectedGoods(card);
+          };
+          const countPage = cardsCategory
+          ? Math.ceil(cardsCategory.length / countItemOnPage)
+          : cardChoice.length !== 0
+          ? Math.ceil(cardChoice.length / countItemOnPage)
+          : projectors
+          ? Math.ceil(projectors.length / countItemOnPage)
+          : 0;
+          
+          const itemForPage =
+          cardChoice.length !== 0 ? [...cardChoice] : projectors && [...projectors];
+          const itemForPageCategory = cardsCategory && [...cardsCategory];
+          
+          const pagination = (arr, num) => {
+            return arr && arr.splice((num - 1) * countItemOnPage, countItemOnPage);
+          };
+          const itemOnPage = pagination(itemForPage, activePage);
+          const itemOnPageCategory = pagination(itemForPageCategory, activePage);
+          useEffect(() => {            
+            getGoods();
+          }, []);
+          console.log(projectors)
+          return (
     projectors && (
       <div className="main py-3 px-3">
         <div className="d-flex justify-content-end align-items-baseline ">

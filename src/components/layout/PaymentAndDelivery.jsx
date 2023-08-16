@@ -7,7 +7,7 @@ const PaymentAndDelivery = () => {
       className="container d-flex flex-column justify-content-center text-center mt-3"
       style={{ width: "80%" }}
     >
-      <h1 className="mb-3">Условия доставки и оплаты</h1>
+      <h1 className="my-3">Условия доставки и оплаты</h1>
       <p style={{ fontSize: "2rem", color: "#919191", fontWeight: "bold" }}>
         Способы доставки
       </p>

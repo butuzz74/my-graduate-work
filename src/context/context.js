@@ -6,10 +6,8 @@ export const MainPageContext = createContext();
 
 export const MainPageContextProvider = ({ children }) => {
   const history = useHistory();
-
   const getAccessInCart = () => {
-    const access = getAccessToken();
-    if (access) {
+    if (getAccessToken()) {
       history.push("./basket");
     } else {
       history.push("./signin");

@@ -16,7 +16,7 @@ import {
 const CardAddGood = () => {
   const { cardId } = useParams();
   const dispatch = useDispatch();
-  const history = useHistory();
+  const history = useHistory();  
 
   const initialState = {
     category: "",
