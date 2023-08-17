@@ -26,7 +26,7 @@ const CategoriesList = ({ cardsInfo, onCategoryItems, onBack }) => {
           >
             <div className="ms-2 me-auto">
               <div className="fw-bold">{cat}</div>
-              Content for list item
+              Content
             </div>
             <span className="badge bg-primary rounded-pill">
               {amount[index]}

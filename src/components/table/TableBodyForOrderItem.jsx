@@ -10,7 +10,7 @@ const TableBodyForOrderItem = ({ number, data }) => {
     namePos: el.model,
     price: el.price,
     amount: el.amount,
-    sumOrder: el.price * el.amount,
+    sumOrder: +(el.price.split(" ").join("")) * +el.amount,
   }));
   return (
     <tbody>

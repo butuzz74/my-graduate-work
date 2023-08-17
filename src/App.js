@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loadProjectors } from "./store/projectorsSlice";
-
 import Main from "./components/layout/Main";
 import NotFound from "./components/layout/NotFound";
 import SignUp from "./components/layout/SignUp";
@@ -21,19 +19,18 @@ import ProfileCard from "./components/layout/ProfileCard";
 import EditProfile from "./components/layout/EditProfile";
 import OrdersList from "./components/layout/OrdersList";
 import OrderCard from "./components/order/OrderCard";
-import CardAddGood from "./components/layout/CardAddGood";
 import EditGoodsList from "./components/layout/EditGoodsList";
-import GoodsAddTest from "./components/layout/GoodsAddTest";
-import MainTest from "./components/layout/MainTest";
 import { getCurrentUser } from "./store/usersSlice";
 import localStorageService from "./service/localStorage.service";
 import OrderItem from "./components/layout/OrderItem";
 import "react-toastify/dist/ReactToastify.css"
+import { loadGoods } from "./store/goodsSlice";
+import GoodAddAndUpdate from "./components/layout/GoodAddAndUpdate";
 
 function App() {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(loadProjectors());
+  useEffect(() => {   
+    dispatch(loadGoods());
     toast("Загрузка произошла успешно!")        
     if (localStorageService.getAccessToken()) {
       dispatch(getCurrentUser());
@@ -47,11 +44,10 @@ function App() {
           <MainPageContextProvider>
             <Switch>
               <Route path="/" exact component={Main} />
-              <Route path="/order/:orderId" component={OrderItem}/>
-              <Route path="/maintest" component={MainTest} />
+              <Route path="/order/:orderId" component={OrderItem}/>              
               <Route path="/cardaddgood" component={EditGoodsList} />
-              <Route path="/goodsaddtest" component={GoodsAddTest} />
-              <Route path="/cardeditgood/:cardId?" component={CardAddGood} />
+              <Route path="/goodsaddtest" component={GoodAddAndUpdate}/>                             
+              <Route path="/cardeditgood/:cardId?" component={GoodAddAndUpdate} />
               <Route path="/ordercard" component={OrderCard} />
               <Route path="/orderslist" component={OrdersList} />
               <Route path="/basket" component={BasketList} />

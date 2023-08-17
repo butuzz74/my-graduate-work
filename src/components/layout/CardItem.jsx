@@ -4,7 +4,8 @@ import Loader from "../common/Loader";
 import Cart from "../main/Cart";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCart, addGood, getCountCart } from "../../store/cartSlice";
-import { getProjectorById } from "../../store/projectorsSlice";
+// import { getProjectorById } from "../../store/projectorsSlice";
+import { getGoodsById } from "../../store/goodsSlice";
 import { MainPageContext } from "../../context/context";
 
 const CardItem = () => {
@@ -12,7 +13,8 @@ const CardItem = () => {
   const dispatch = useDispatch();
   const { cardId } = params;
   const countCart = useSelector(getCountCart());
-  const card = useSelector(getProjectorById(cardId));
+  // const card = useSelector(getProjectorById(cardId));
+  const card = useSelector(getGoodsById(cardId));
   const { getAccessInCart } = useContext(MainPageContext);
 
   const handleCountCart = (card) => {
@@ -27,7 +29,11 @@ const CardItem = () => {
       card && (
         <div className="main">
           <div className="d-flex justify-content-end pt-5 pe-5">
-            <Cart countCart={countCart} getAccessInCart={getAccessInCart} onClearCart={handleClearCart}/>
+            <Cart
+              countCart={countCart}
+              getAccessInCart={getAccessInCart}
+              onClearCart={handleClearCart}
+            />
           </div>
           <div className="card-item col d-flex align-items-stretch">
             <div className="card">

@@ -5,10 +5,7 @@ import Pagination from "../main/Pagination";
 import Search from "../main/Search";
 import CategoriesList from "../main/CategoriesList";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteProjector,
-  getProjectorsRedux,
-} from "../../store/projectorsSlice";
+import { deleteGoods, getGoodsRedux } from "../../store/goodsSlice";
 
 const EditGoodsList = () => {
   const dispatch = useDispatch();
@@ -16,18 +13,19 @@ const EditGoodsList = () => {
   const history = useHistory();
   const path = location.pathname;
   const countItemOnPage = 4;
-  const projectorsRedux = useSelector(getProjectorsRedux());  
-  const [projectors, setProjectors] = useState([]);
+  const goodsRedux = useSelector(getGoodsRedux());
+  const [goods, setGoods] = useState([]);
   const [cardsCategory, setCardsCategory] = useState();
   const [cardChoice, setCardsChoice] = useState([]);
   const [activePage, setActivePage] = useState(1);
   const [value, setValue] = useState("");
 
-  useEffect(()=>{
-    setProjectors(projectorsRedux);
-  }, [projectorsRedux])
+  useEffect(() => {
+    setGoods(goodsRedux);
+  }, [goodsRedux]);
   const handleCategoryItems = (cat) => {
-    setCardsCategory(projectors.filter((card) => card.type === cat));
+    setCardsCategory(goods.filter((card) => card.type === cat));    
+    setActivePage(1);
   };
   const handleOnBack = () => {
     setCardsCategory();
@@ -36,14 +34,14 @@ const EditGoodsList = () => {
     setValue(e.target.value);
   };
 
-  const handleDeleteGood = (id) => {
-    dispatch(deleteProjector(id));
+  const handleDeleteGood = (path, id) => {
+    dispatch(deleteGoods(path, id));
   };
 
   useEffect(() => {
-    projectors &&
+    goods &&
       setCardsChoice(
-        projectors.filter(
+        goods.filter(
           (elem) =>
             elem.type
               .split(" ")
@@ -66,16 +64,16 @@ const EditGoodsList = () => {
     ? Math.ceil(cardsCategory.length / countItemOnPage)
     : cardChoice.length !== 0
     ? Math.ceil(cardChoice.length / countItemOnPage)
-    : projectors
-    ? Math.ceil(projectors.length / countItemOnPage)
+    : goods
+    ? Math.ceil(goods.length / countItemOnPage)
     : 0;
   const itemForPage =
-    cardChoice.length !== 0 && projectors.length !== 0
+    cardChoice.length !== 0 && goods.length !== 0
       ? [...cardChoice]
-      : [...projectors];
+      : [...goods];
   const itemForPageCategory = cardsCategory && [...cardsCategory];
 
-  const pagination = (arr, num) => {    
+  const pagination = (arr, num) => {
     if (arr && arr.length !== 0) {
       const arrPage = arr.splice((num - 1) * countItemOnPage, countItemOnPage);
       if (arr && arrPage.length === 0) {
@@ -89,7 +87,8 @@ const EditGoodsList = () => {
   const itemOnPageCategory = pagination(itemForPageCategory, activePage);
 
   return (
-    projectors && projectors.length !== 0 &&
+    goods &&
+    goods.length !== 0 &&
     (itemOnPage || itemOnPageCategory) && (
       <div className="main py-3 px-3">
         <div className="d-flex justify-content-end align-items-baseline ">
@@ -97,26 +96,19 @@ const EditGoodsList = () => {
           <button
             type="button"
             className="btn btn-success mt-2"
-            onClick={() => history.push("/cardeditgood")}
-          >
-            Добавить товар
-          </button>
-          <button
-            type="button"
-            className="btn btn-success mt-2"
             onClick={() => history.push("/goodsaddtest")}
           >
-            Добавить товар тест
+            Добавить
           </button>
         </div>
         <div className="content">
-          <CategoriesList            
-            cardsInfo={projectors}
+          <CategoriesList
+            cardsInfo={goods}
             onCategoryItems={handleCategoryItems}
             onBack={handleOnBack}
           />
           <CardList
-            cardsInfo={itemOnPageCategory ? itemOnPageCategory : itemOnPage}            
+            cardsInfo={itemOnPageCategory ? itemOnPageCategory : itemOnPage}
             path={path}
             onDelete={handleDeleteGood}
           />

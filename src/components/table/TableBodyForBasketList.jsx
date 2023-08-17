@@ -29,7 +29,7 @@ const TableBodyForBasketList = ({ data }) => {
         ></i>
       </div>
     ),
-    sumOrder: el.price * el.amount,
+    sumOrder: +(el.price.split(" ").join("")) * +el.amount,
     delete: (
       <div className="d-flex justify-content-center align-items-center">
       <i
