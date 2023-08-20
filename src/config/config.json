@@ -1,6 +1,7 @@
 {
-    "apiEndpoint": "https://my-graduate-work-7fde2-default-rtdb.europe-west1.firebasedatabase.app/",
-  "isFireBase": true,
+    "apiEndpointForFirebase": "https://my-graduate-work-7fde2-default-rtdb.europe-west1.firebasedatabase.app/",
+    "apiEndpoint": "http://localhost:8080/api/",
+  "isFireBase": false,
   "category": ["projectors", "monitor", "videowall", "screen"],
   "columsForOrderList": {
     "pos": "#",

@@ -73,16 +73,17 @@ export const signUp =
   async (dispatch) => {
     dispatch(authRequested());
     try {
-      const data = await authService.register({ email, password, nick });
+      const data = await authService.register({ email, password, nick });      
       localStorageService.setTokens(data);
-      dispatch(authRequestSuccess({ userId: data.localId }));
-      const content = await userService.create({
-        _id: data.localId,
-        email,
-        password,
-        nick,
-        ...rest,
-      });
+      dispatch(authRequestSuccess({ userId: data.userId }));
+      const content = await userService.get(data.userId)      
+      // const content = await userService.create({
+      //   _id: data.userId,
+      //   email,
+      //   password,
+      //   nick,
+      //   ...rest,
+      // });
       dispatch(currentUserCreated(content));
     } catch (error) {
       dispatch(authRequestFailed(error.message));
@@ -105,7 +106,7 @@ export const signIn =
     try {
       const data = await authService.login({ email, password });
       localStorageService.setTokens(data);
-      dispatch(authRequestSuccess({ userId: data.localId }));
+      dispatch(authRequestSuccess({ userId: data.userId }));
       const content = await userService.getCurrentUser();
       dispatch(currentUserCreated(content));
     } catch (error) {

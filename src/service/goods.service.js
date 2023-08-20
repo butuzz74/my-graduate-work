@@ -1,10 +1,10 @@
 import htppService from "./htpp.service";
 
-const goodsEndpoint = "goods/";
+const goodsEndpoint = "good/";
 
 const goodsService = {
   fetchAll: async () => {
-    const { data } = await htppService.get(goodsEndpoint);
+    const { data } = await htppService.get(goodsEndpoint);    
     return data;
   },
   get: async (path, id) => {

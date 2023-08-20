@@ -19,13 +19,13 @@ const TableBodyForBasketList = ({ data }) => {
         <i
           className="bi bi-caret-up"
           role="button"
-          onClick={() => dispatch(incrementGood(el.id))}
+          onClick={() => dispatch(incrementGood(el._id))}
         ></i>
         {el.amount}
         <i
           className="bi bi-caret-down"
           role="button"
-          onClick={() => dispatch(dicrementGood(el.id))}
+          onClick={() => dispatch(dicrementGood(el._id))}
         ></i>
       </div>
     ),
@@ -35,7 +35,7 @@ const TableBodyForBasketList = ({ data }) => {
       <i
         className="bi bi-x-lg"
         role="button"
-        onClick={() => dispatch(deleteGood(el.id))}
+        onClick={() => dispatch(deleteGood(el._id))}
       ></i>
 
       </div>

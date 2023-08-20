@@ -20,7 +20,7 @@ const Card = ({ card, onCountCart, path, onDelete }) => {
               <>
                 <Button className={"btn btn-success"}>
                   <NavLink
-                    to={`/${card.id}`}
+                    to={`/${card._id}`}
                     className="nav-link text-decoration-underline"
                     activeClassName="selected"
                     style={{ color: "white" }}
@@ -39,7 +39,7 @@ const Card = ({ card, onCountCart, path, onDelete }) => {
               <>
                 <Button className={"btn btn-success"}>
                   <NavLink
-                    to={`/cardeditgood/${card.id}`}
+                    to={`/cardeditgood/${card._id}`}
                     className="nav-link text-decoration-underline"
                     activeClassName="selected"
                     style={{ color: "white" }}
@@ -49,7 +49,7 @@ const Card = ({ card, onCountCart, path, onDelete }) => {
                 </Button>
                 <Button
                   className={"btn btn-success mt-2"}
-                  onClick={() => onDelete(card.category, card.id)}
+                  onClick={() => onDelete(card.category, card._id)}
                 >
                   Удалить
                 </Button>

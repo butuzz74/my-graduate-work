@@ -17,7 +17,7 @@ const cartSlice = createSlice({
     },
     add: (state, action) => {
       const containsGood = state.entities.selectedGood.find(
-        (elem) => elem.id === action.payload.id
+        (elem) => elem._id === action.payload._id
       );
       if (!containsGood) {
         state.entities.countCart += 1;
@@ -26,14 +26,14 @@ const cartSlice = createSlice({
     },
     deleteGood: (state, action) => {
       const filteredGoods = state.entities.selectedGood.filter(
-        (item) => item.id !== action.payload
+        (item) => item._id !== action.payload
       );
       state.entities.selectedGood = filteredGoods;
       state.entities.countCart = filteredGoods.length;
     },
     increment: (state, action) => {
       const newSelectedGood = state.entities.selectedGood.map((item) => {
-        if (item.id === action.payload) {
+        if (item._id === action.payload) {
           return { ...item, amount: item.amount + 1 };
         } else {
           return item;
@@ -43,7 +43,7 @@ const cartSlice = createSlice({
     },
     dicrement: (state, action) => {
       const newSelectedGood = state.entities.selectedGood.map((item) => {
-        if (item.id === action.payload && item.amount > 0) {
+        if (item._id === action.payload && item.amount > 0) {
           return { ...item, amount: item.amount - 1 };
         } else {
           return item;

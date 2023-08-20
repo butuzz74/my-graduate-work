@@ -4,7 +4,6 @@ import Loader from "../common/Loader";
 import Cart from "../main/Cart";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCart, addGood, getCountCart } from "../../store/cartSlice";
-// import { getProjectorById } from "../../store/projectorsSlice";
 import { getGoodsById } from "../../store/goodsSlice";
 import { MainPageContext } from "../../context/context";
 
@@ -12,8 +11,7 @@ const CardItem = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const { cardId } = params;
-  const countCart = useSelector(getCountCart());
-  // const card = useSelector(getProjectorById(cardId));
+  const countCart = useSelector(getCountCart());  
   const card = useSelector(getGoodsById(cardId));
   const { getAccessInCart } = useContext(MainPageContext);
 
