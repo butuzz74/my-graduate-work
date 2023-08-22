@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProjectorsLoadingStatus } from "../../store/projectorsSlice";
 import { addGood, clearCart, getCountCart } from "../../store/cartSlice";
 import { getGoodsRedux } from "../../store/goodsSlice";
+import Loader from "../common/Loader";
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -81,7 +82,7 @@ const Main = () => {
   const itemOnPage = pagination(itemForPage, activePage);
   const itemOnPageCategory = pagination(itemForPageCategory, activePage);
   return (
-    goods && (
+    goods ? (
       <div className="main py-3 px-3">
         <div className="d-flex justify-content-end align-items-baseline ">
           <Search onSearch={handleOnSearch} value={value} />
@@ -108,7 +109,7 @@ const Main = () => {
           onActivePage={handleActivePage}
         />
       </div>
-    )
+    ) : <Loader/>
   );
 };
 

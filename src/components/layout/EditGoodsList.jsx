@@ -6,6 +6,7 @@ import Search from "../main/Search";
 import CategoriesList from "../main/CategoriesList";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteGoods, getGoodsRedux } from "../../store/goodsSlice";
+import Button from "../common/Button";
 
 const EditGoodsList = () => {
   const dispatch = useDispatch();
@@ -34,8 +35,11 @@ const EditGoodsList = () => {
     setValue(e.target.value);
   };
 
-  const handleDeleteGood = (path, id) => {
-    dispatch(deleteGoods(path, id));
+  // const handleDeleteGood = (path, id) => {
+  //   dispatch(deleteGoods(path, id));
+  // };
+  const handleDeleteGood = (id) => {    
+    dispatch(deleteGoods(id));
   };
 
   useEffect(() => {
@@ -93,13 +97,8 @@ const EditGoodsList = () => {
       <div className="main py-3 px-3">
         <div className="d-flex justify-content-end align-items-baseline ">
           <Search onSearch={handleOnSearch} value={value} />
-          <button
-            type="button"
-            className="btn btn-success mt-2"
-            onClick={() => history.push("/goodsaddtest")}
-          >
-            Добавить
-          </button>
+          <Button className={"btn btn-success mt-2"} onClick={() => history.push("/goodsaddtest")}>Добавить</Button>
+          <Button className={"btn btn-success mt-2 ms-2"} onClick={() => history.push("/")}>На главную страницу</Button>
         </div>
         <div className="content">
           <CategoriesList

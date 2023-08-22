@@ -11,22 +11,40 @@ const goodsService = {
     const { data } = await htppService.get(goodsEndpoint + path + id);
     return data;
   },
-  create: async (path, content) => {
-    const { data } = await htppService.put(
-      goodsEndpoint + path + content.id,
+  // create: async (path, content) => {
+  //   const { data } = await htppService.put(
+  //     goodsEndpoint + path + content.id,
+  //     content
+  //   );
+  //   return data;
+  // },
+  create: async (content) => {
+    const { data } = await htppService.post(
+      goodsEndpoint,
       content
     );
     return data;
   },
-  update: async (path, id, content) => {
-    const { data } = await htppService.put(
-      goodsEndpoint + `${path}/${id}/`,
+  // update: async (path, id, content) => {
+  //   const { data } = await htppService.put(
+  //     goodsEndpoint + `${path}/${id}/`,
+  //     content
+  //   );
+  //   return data;
+  // },
+  update: async (id, content) => {
+    const { data } = await htppService.patch(
+      goodsEndpoint + id,
       content
     );
     return data;
   },
-  delete: async (path, id) => {
-    const { data } = await htppService.delete(goodsEndpoint + `${path}/${id}/`);
+  // delete: async (path, id) => {
+  //   const { data } = await htppService.delete(goodsEndpoint + `${path}/${id}/`);
+  //   return data;
+  // },
+  delete: async (id) => {
+    const { data } = await htppService.delete(goodsEndpoint + id);
     return data;
   },
 };

@@ -44,6 +44,7 @@ function App() {
           <MainPageContextProvider>
             <Switch>
               <Route path="/" exact component={Main} />
+              {/* <Route path="/card:cardId?" component={CardItem}/> */}
               <Route path="/order/:orderId" component={OrderItem}/>              
               <Route path="/cardaddgood" component={EditGoodsList} />
               <Route path="/goodsaddtest" component={GoodAddAndUpdate}/>                             

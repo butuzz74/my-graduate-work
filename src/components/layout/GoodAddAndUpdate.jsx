@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import TextField from "../form/TextField";
 import TextAreaField from "../form/TextAreaField";
 import { useParams } from "react-router-dom";
-import { nanoid } from "nanoid";
 import SelectField from "../form/SelectField";
 import configFile from "../../config/config.json";
 import { useDispatch, useSelector } from "react-redux";
 import { createGood, getGoodsById, updatedGoods } from "../../store/goodsSlice";
+import Button from "../common/Button";
 
 const GoodAddAndUpdate = () => {
   const { cardId } = useParams();
@@ -23,6 +23,7 @@ const GoodAddAndUpdate = () => {
     model: "",
     price: "",
     type: "",
+    access: ""
   };
   const [data, setData] = useState(initialState);
   const selectGood = useSelector(getGoodsById(cardId));
@@ -40,11 +41,15 @@ const GoodAddAndUpdate = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (cardId) {
-      const newGood = { ...data, id: cardId };
-      dispatch(updatedGoods(newGood.category, cardId, newGood));
+      // const newGood = { ...data, id: cardId };
+      // dispatch(updatedGoods(newGood.category, cardId, newGood));
+      const newGood = { ...data };
+      dispatch(updatedGoods(cardId, newGood));
     } else {
-      const newGood = { ...data, id: nanoid() };
-      dispatch(createGood(newGood.category + "/", newGood));
+      // const newGood = { ...data, id: nanoid() };
+      // dispatch(createGood(newGood.category + "/", newGood));
+      const newGood = { ...data };
+      dispatch(createGood(newGood));
     }
     history.push("/cardaddgood");
   };
@@ -68,7 +73,7 @@ const GoodAddAndUpdate = () => {
                 value={data.category}
                 onChange={handleChange}
                 options={configFile.category}
-              />              
+              />
               <TextField
                 label={"Brand"}
                 type={"text"}
@@ -139,26 +144,30 @@ const GoodAddAndUpdate = () => {
                 id={"type"}
                 // error={errors.email}
               />
+              <SelectField
+                label="Доступность"
+                name="access"
+                value={data.access}
+                onChange={handleChange}
+                options={["Доступен", "Не доступен"]}
+              />
             </div>
-            <button
-              type="submit"
-              className="btn btn-primary mb-3"
-              //   disabled={!isValid}
-            >
-              Отправить
-            </button>
-          </form>
-          <div className="d-flex justify-content-between">
-            <button type="button" className="btn btn-primary">
-              <NavLink
-                to="/cardaddgood"
-                className="nav-link text-decoration-underline d-flex justify-content-center"
+            <div className="d-flex justify-content-between">
+              <button
+                type="submit"
+                className="btn btn-primary mb-3"
+                //   disabled={!isValid}
               >
-                {" "}
+                Отправить
+              </button>
+              <Button
+                className={"btn btn-primary mb-3"}
+                onClick={() => history.push("/cardaddgood")}
+              >
                 <i className="bi bi-arrow-left" /> Назад
-              </NavLink>
-            </button>
-          </div>
+              </Button>              
+            </div>
+          </form>
         </div>
       </div>
     </div>

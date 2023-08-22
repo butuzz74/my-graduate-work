@@ -1,17 +1,19 @@
 import React, { useContext } from "react";
-import { useParams, NavLink } from "react-router-dom";
+import { useParams, NavLink, useHistory } from "react-router-dom";
 import Loader from "../common/Loader";
 import Cart from "../main/Cart";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCart, addGood, getCountCart } from "../../store/cartSlice";
 import { getGoodsById } from "../../store/goodsSlice";
 import { MainPageContext } from "../../context/context";
+import Button from "../common/Button";
 
 const CardItem = () => {
   const params = useParams();
+  const history = useHistory();
   const dispatch = useDispatch();
   const { cardId } = params;
-  const countCart = useSelector(getCountCart());  
+  const countCart = useSelector(getCountCart());
   const card = useSelector(getGoodsById(cardId));
   const { getAccessInCart } = useContext(MainPageContext);
 
@@ -53,7 +55,13 @@ const CardItem = () => {
                     <p>{card.description}</p>
                   </div>
                 </div>
-                <button type="button" className="btn btn-success">
+                <Button
+                  className={"btn btn-success"}
+                  onClick={() => history.goBack()}
+                >
+                  Назад
+                </Button>
+                {/* <button type="button" className="btn btn-success">
                   <NavLink
                     to="/"
                     className="nav-link text-decoration-underline"
@@ -62,7 +70,7 @@ const CardItem = () => {
                   >
                     Назад
                   </NavLink>
-                </button>
+                </button> */}
                 <button
                   type="button"
                   className="btn btn-success mt-2"

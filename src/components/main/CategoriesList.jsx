@@ -25,8 +25,7 @@ const CategoriesList = ({ cardsInfo, onCategoryItems, onBack }) => {
             onClick={() => onCategoryItems(cat)}
           >
             <div className="ms-2 me-auto">
-              <div className="fw-bold">{cat}</div>
-              Content
+              <div className="fw-bold">{cat}</div>              
             </div>
             <span className="badge bg-primary rounded-pill">
               {amount[index]}

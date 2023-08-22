@@ -41,8 +41,7 @@ export const clearListOrder = createAction("order/clear");
 export const orderListCurrentUser = (id) => async (dispatch) => {
     dispatch(orderRequested);
     try {
-        const content = await orderService.getById(id); 
-        console.log(content)       
+        const content = await orderService.getById(id);                                   
         dispatch(create(content))
       } catch (error) {
         dispatch(orderRequestFailed(error.message))
@@ -51,12 +50,18 @@ export const orderListCurrentUser = (id) => async (dispatch) => {
     export const sendOrder = (data) => async (dispatch) => {
         dispatch(orderRequested);
         try {
-            const content = await orderService.create(data);              
+            const content = await orderService.create(data);                     
             dispatch(send(content))
           } catch (error) {
             dispatch(orderRequestFailed(error.message))
           } 
     }
     export const getOrderListCurrentUser = () => (state) => state.order.entities;
-    export const getOrderItemById = (id) => (state) => state.order.entities[id]
+    // export const getOrderItemById = (id) => (state) => state.order.entities[id]    
+    export const getOrderItemById = (id) => (state) => {      
+      if (state.order.entities) {
+        return state.order.entities.find((u) => u._id === id);
+      }
+    };
+
 export default orderReducer;

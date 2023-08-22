@@ -6,6 +6,7 @@ import { validatorConfig } from "../../config/config";
 import { getCurrentUserId } from "../../service/localStorage.service";
 import { useDispatch, useSelector } from "react-redux";
 import { getIsLoggedIn, updateCurrentUser } from "../../store/usersSlice";
+import localStorageService from "../../service/localStorage.service";
 
 const EditProfile = () => {
   const dispatch = useDispatch();
@@ -32,7 +33,8 @@ const EditProfile = () => {
     e.preventDefault();
     const isValid = validate();
     if (!isValid) return;
-    dispatch(updateCurrentUser(getCurrentUserId(), data));
+    // dispatch(updateCurrentUser(getCurrentUserId(), data));
+    dispatch(updateCurrentUser(localStorageService.getCurrentUserId(), {...data, _id: localStorageService.getCurrentUserId()}));
   };
   useEffect(() => {
     if (currentUser) {

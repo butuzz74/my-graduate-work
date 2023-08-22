@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import Button from "../common/Button";
 
-const Card = ({ card, onCountCart, path, onDelete }) => {
+const Card = ({ card, onCountCart, path, onDelete }) => {  
   return (
     card && (
       <div className="col d-flex flex-column justify-content-between align-items-stretch">
@@ -49,7 +49,8 @@ const Card = ({ card, onCountCart, path, onDelete }) => {
                 </Button>
                 <Button
                   className={"btn btn-success mt-2"}
-                  onClick={() => onDelete(card.category, card._id)}
+                  // onClick={() => onDelete(card.category, card._id)}
+                  onClick={() => onDelete(card._id)}
                 >
                   Удалить
                 </Button>
