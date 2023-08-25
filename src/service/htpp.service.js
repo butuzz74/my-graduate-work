@@ -18,7 +18,7 @@ axios.interceptors.request.use(
     // function (error) {
     //   return Promise.reject(error);
     // }
-    async function (config) {
+    async function(config) {
         const expiresDate = localStorageService.getTokenExpiresDate();
         const refreshToken = localStorageService.getRefreshToken();
         const isExpired = refreshToken && expiresDate < Date.now();
@@ -56,7 +56,7 @@ axios.interceptors.request.use(
         }
         return config;
     },
-    function (error) {
+    function(error) {
         return Promise.reject(error);
     }
 );

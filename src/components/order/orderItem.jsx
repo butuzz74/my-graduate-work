@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { displayDate } from "../../utils/displayDate";
 
 const OrderItem = ({ time, positions, sum, order, goToOrderCard }) => {
@@ -18,5 +19,11 @@ const OrderItem = ({ time, positions, sum, order, goToOrderCard }) => {
         </li>
     );
 };
-
+OrderItem.propTypes = {
+    time: PropTypes.string,
+    positions: PropTypes.string,
+    sum: PropTypes.string,
+    order: PropTypes.string,
+    goToOrderCard: PropTypes.func
+};
 export default OrderItem;

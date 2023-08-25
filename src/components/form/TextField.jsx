@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 const TextField = ({
     label,
@@ -49,5 +50,14 @@ const TextField = ({
         </>
     );
 };
-
+TextField.propTypes = {
+    label: PropTypes.string,
+    type: PropTypes.string,
+    name: PropTypes.string,
+    value: PropTypes.string,
+    onChange: PropTypes.func,
+    error: PropTypes.string,
+    placeholder: PropTypes.string,
+    id: PropTypes.string
+};
 export default TextField;

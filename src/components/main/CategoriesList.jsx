@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const CategoriesList = ({ cardsInfo, onCategoryItems, onBack }) => {
     const categories = [...new Set(cardsInfo.map((card) => card.type))];
@@ -43,5 +44,9 @@ const CategoriesList = ({ cardsInfo, onCategoryItems, onBack }) => {
         </>
     );
 };
-
+CategoriesList.propTypes = {
+    cardsInfo: PropTypes.array,
+    onCategoryItems: PropTypes.func,
+    onBack: PropTypes.func
+};
 export default CategoriesList;

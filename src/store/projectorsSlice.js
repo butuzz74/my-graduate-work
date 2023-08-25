@@ -50,7 +50,7 @@ const {
     update
 } = actions;
 
-export const loadProjectors = () => async (dispatch) => {
+export const loadProjectors = () => async(dispatch) => {
     dispatch(projectorsRequested());
     try {
         const content = await projectorService.fetchAll();
@@ -60,7 +60,7 @@ export const loadProjectors = () => async (dispatch) => {
         dispatch(projectorsRequestFailed(error.message));
     }
 };
-export const createProjector = (data) => async (dispatch) => {
+export const createProjector = (data) => async(dispatch) => {
     dispatch(projectorsRequested());
     try {
         const content = await projectorService.create(data);
@@ -69,7 +69,7 @@ export const createProjector = (data) => async (dispatch) => {
         dispatch(projectorsRequestFailed(error.message));
     }
 };
-export const deleteProjector = (id) => async (dispatch) => {
+export const deleteProjector = (id) => async(dispatch) => {
     dispatch(projectorsRequested());
     try {
         const content = await projectorService.delete(id);
@@ -79,7 +79,7 @@ export const deleteProjector = (id) => async (dispatch) => {
         dispatch(projectorsRequestFailed(error.message));
     }
 };
-export const updatedProjector = (id, data) => async (dispatch) => {
+export const updatedProjector = (id, data) => async(dispatch) => {
     dispatch(projectorsRequested());
     try {
         const content = await projectorService.update(id, data);

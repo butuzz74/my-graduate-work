@@ -5,21 +5,21 @@ import userService from "../service/user.service";
 
 const initialState = localStorageService.getAccessToken()
     ? {
-          entities: null,
-          isLoading: true,
-          error: null,
-          auth: { userId: localStorageService.getCurrentUserId() },
-          isLoggedIn: true,
-          dataLoaded: false
-      }
+        entities: null,
+        isLoading: true,
+        error: null,
+        auth: { userId: localStorageService.getCurrentUserId() },
+        isLoggedIn: true,
+        dataLoaded: false
+    }
     : {
-          entities: null,
-          isLoading: false,
-          error: null,
-          auth: null,
-          isLoggedIn: false,
-          dataLoaded: false
-      };
+        entities: null,
+        isLoading: false,
+        error: null,
+        auth: null,
+        isLoggedIn: false,
+        dataLoaded: false
+    };
 
 const usersSlice = createSlice({
     name: "users",
@@ -70,65 +70,65 @@ const {
 
 export const signUp =
     ({ email, password, nick, ...rest }) =>
-    async (dispatch) => {
-        dispatch(authRequested());
-        try {
-            const data = await authService.register({ email, password, nick });
-            localStorageService.setTokens(data);
-            dispatch(authRequestSuccess({ userId: data.userId }));
-            const content = await userService.get(data.userId);
-            // const content = await userService.create({
-            //   _id: data.userId,
-            //   email,
-            //   password,
-            //   nick,
-            //   ...rest,
-            // });
-            dispatch(currentUserCreated(content));
-        } catch (error) {
-            dispatch(authRequestFailed(error.message));
-            const { code, message } = error.response.data.error;
-            if (code === 400) {
-                if (message === "EMAIL_EXISTS") {
-                    const errorObject = {
-                        email: "Пользователь с таким email уже существует"
-                    };
-                    throw errorObject;
+        async(dispatch) => {
+            dispatch(authRequested());
+            try {
+                const data = await authService.register({ email, password, nick });
+                localStorageService.setTokens(data);
+                dispatch(authRequestSuccess({ userId: data.userId }));
+                const content = await userService.get(data.userId);
+                // const content = await userService.create({
+                //   _id: data.userId,
+                //   email,
+                //   password,
+                //   nick,
+                //   ...rest,
+                // });
+                dispatch(currentUserCreated(content));
+            } catch (error) {
+                dispatch(authRequestFailed(error.message));
+                const { code, message } = error.response.data.error;
+                if (code === 400) {
+                    if (message === "EMAIL_EXISTS") {
+                        const errorObject = {
+                            email: "Пользователь с таким email уже существует"
+                        };
+                        throw errorObject;
+                    }
                 }
             }
-        }
-    };
+        };
 
 export const signIn =
     ({ email, password }) =>
-    async (dispatch) => {
-        dispatch(authRequested());
-        try {
-            const data = await authService.login({ email, password });
-            localStorageService.setTokens(data);
-            dispatch(authRequestSuccess({ userId: data.userId }));
-            const content = await userService.getCurrentUser();
-            dispatch(currentUserCreated(content));
-        } catch (error) {
-            dispatch(authRequestFailed(error.message));
-            const { code, message } = error.response.data.error;
-            if (code === 400) {
-                if (message === "EMAIL_NOT_FOUND") {
-                    const errorObject = {
-                        email: "Пользователь с таким email не зарегестрирован. Зарегистрируйтесь!"
-                    };
-                    throw errorObject;
-                }
-                if (message === "INVALID_PASSWORD") {
-                    const errorObject = {
-                        password: "Не правильный пароль!"
-                    };
-                    throw errorObject;
+        async(dispatch) => {
+            dispatch(authRequested());
+            try {
+                const data = await authService.login({ email, password });
+                localStorageService.setTokens(data);
+                dispatch(authRequestSuccess({ userId: data.userId }));
+                const content = await userService.getCurrentUser();
+                dispatch(currentUserCreated(content));
+            } catch (error) {
+                dispatch(authRequestFailed(error.message));
+                const { code, message } = error.response.data.error;
+                if (code === 400) {
+                    if (message === "EMAIL_NOT_FOUND") {
+                        const errorObject = {
+                            email: "Пользователь с таким email не зарегестрирован. Зарегистрируйтесь!"
+                        };
+                        throw errorObject;
+                    }
+                    if (message === "INVALID_PASSWORD") {
+                        const errorObject = {
+                            password: "Не правильный пароль!"
+                        };
+                        throw errorObject;
+                    }
                 }
             }
-        }
-    };
-export const getCurrentUser = () => async (dispatch) => {
+        };
+export const getCurrentUser = () => async(dispatch) => {
     dispatch(authRequested());
     try {
         const content = await userService.getCurrentUser();
@@ -138,7 +138,7 @@ export const getCurrentUser = () => async (dispatch) => {
     }
 };
 
-export const updateCurrentUser = (id, data) => async (dispatch) => {
+export const updateCurrentUser = (id, data) => async(dispatch) => {
     dispatch(authRequested());
     try {
         const content = await userService.update(id, data);

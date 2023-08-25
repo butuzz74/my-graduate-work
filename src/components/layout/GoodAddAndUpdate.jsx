@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import TextField from "../form/TextField";
 import TextAreaField from "../form/TextAreaField";
-import { useParams } from "react-router-dom";
 import SelectField from "../form/SelectField";
 import configFile from "../../config/config.json";
 import { useDispatch, useSelector } from "react-redux";
@@ -76,11 +75,13 @@ const GoodAddAndUpdate = () => {
             <div className="row">
                 <div className="col-md-6 offset-md-3 p-4 shadow mt-5 bg-transparent text-white">
                     <div className="d-flex justify-content-center">
-                        {cardId ? (
-                            <h2>Редактировать товар</h2>
-                        ) : (
-                            <h2>Добавить товар</h2>
-                        )}
+                        {cardId
+                            ? (
+                                <h2>Редактировать товар</h2>
+                            )
+                            : (
+                                <h2>Добавить товар</h2>
+                            )}
                     </div>
                     <form onSubmit={handleSubmit}>
                         <div className="mb-4">

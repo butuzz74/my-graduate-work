@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const TextAreaField = ({
     name,
@@ -28,5 +29,14 @@ const TextAreaField = ({
         </>
     );
 };
-
+TextAreaField.propTypes = {
+    name: PropTypes.string,
+    id: PropTypes.string,
+    rows: PropTypes.number,
+    value: PropTypes.string,
+    onChange: PropTypes.func,
+    label: PropTypes.string,
+    error: PropTypes.string,
+    placeholder: PropTypes.string
+};
 export default TextAreaField;

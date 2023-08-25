@@ -1,7 +1,7 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 const Pagination = ({ countPage, activePage, onActivePage }) => {
-    let a = [];
+    const a = [];
     if (countPage !== 0) {
         for (let i = 1; i <= countPage; i++) {
             a.push(i);
@@ -34,5 +34,9 @@ const Pagination = ({ countPage, activePage, onActivePage }) => {
         </div>
     );
 };
-
+Pagination.propTypes = {
+    countPage: PropTypes.number,
+    activePage: PropTypes.number,
+    onActivePage: PropTypes.func
+};
 export default Pagination;

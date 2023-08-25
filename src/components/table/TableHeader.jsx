@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const TableHeader = ({ date }) => {
     return (
@@ -11,5 +12,7 @@ const TableHeader = ({ date }) => {
         </thead>
     );
 };
-
+TableHeader.propTypes = {
+    date: PropTypes.object
+};
 export default TableHeader;

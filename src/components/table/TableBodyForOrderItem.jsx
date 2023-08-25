@@ -1,9 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types";
 import configFile from "../../config/config.json";
 import { displayDate } from "../../utils/displayDate";
 import { useHistory } from "react-router-dom";
 
-const TableBodyForOrderItem = ({ number, data }) => {
+const TableBodyForOrderItem = ({ data }) => {
     const history = useHistory();
     // const newData = data.content.map((el, index) => ({
     //   pos: index + 1,
@@ -39,5 +40,7 @@ const TableBodyForOrderItem = ({ number, data }) => {
         </tbody>
     );
 };
-
+TableBodyForOrderItem.propTypes = {
+    data: PropTypes.object
+};
 export default TableBodyForOrderItem;

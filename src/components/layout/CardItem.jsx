@@ -60,11 +60,13 @@ const CardItem = () => {
                                         </h5>
                                         <h5 className="card-text">
                                             Access:{" "}
-                                            {card.access === "Доступен" ? (
-                                                <i className="bi bi-patch-check text-success"></i>
-                                            ) : (
-                                                <i className="bi bi-patch-minus text-danger"></i>
-                                            )}
+                                            {card.access === "Доступен"
+                                                ? (
+                                                    <i className="bi bi-patch-check text-success"></i>
+                                                )
+                                                : (
+                                                    <i className="bi bi-patch-minus text-danger"></i>
+                                                )}
                                         </h5>
                                     </div>
                                     <div className="col-9">

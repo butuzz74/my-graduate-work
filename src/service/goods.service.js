@@ -3,15 +3,15 @@ import htppService from "./htpp.service";
 const goodsEndpoint = "good/";
 
 const goodsService = {
-    fetchAll: async () => {
+    fetchAll: async() => {
         const { data } = await htppService.get(goodsEndpoint);
         return data;
     },
-    get: async (path, id) => {
+    get: async(path, id) => {
         const { data } = await htppService.get(goodsEndpoint + path + id);
         return data;
     },
-    getAllGood: async (path) => {
+    getAllGood: async(path) => {
         const { data } = await htppService.get(goodsEndpoint + path);
         return data;
     },
@@ -22,7 +22,7 @@ const goodsService = {
     //   );
     //   return data;
     // },
-    create: async (content) => {
+    create: async(content) => {
         const { data } = await htppService.post(goodsEndpoint, content);
         return data;
     },
@@ -33,7 +33,7 @@ const goodsService = {
     //   );
     //   return data;
     // },
-    update: async (id, content) => {
+    update: async(id, content) => {
         const { data } = await htppService.patch(goodsEndpoint + id, content);
         return data;
     },
@@ -41,7 +41,7 @@ const goodsService = {
     //   const { data } = await htppService.delete(goodsEndpoint + `${path}/${id}/`);
     //   return data;
     // },
-    delete: async (id) => {
+    delete: async(id) => {
         const { data } = await htppService.delete(goodsEndpoint + id);
         return data;
     }

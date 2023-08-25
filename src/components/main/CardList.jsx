@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Card from "./Card";
 
 const CardList = ({ cardsInfo, onCountCart, path, onDelete }) => {
@@ -16,5 +17,10 @@ const CardList = ({ cardsInfo, onCountCart, path, onDelete }) => {
         </div>
     );
 };
-
+CardList.propTypes = {
+    cardsInfo: PropTypes.array,
+    onCountCart: PropTypes.func,
+    onDelete: PropTypes.func,
+    path: PropTypes.string
+};
 export default CardList;

@@ -38,7 +38,7 @@ const { orderRequested, orderRequestFailed, create, send } = actions;
 
 export const clearListOrder = createAction("order/clear");
 
-export const orderListCurrentUser = (id) => async (dispatch) => {
+export const orderListCurrentUser = (id) => async(dispatch) => {
     dispatch(orderRequested);
     try {
         const content = await orderService.getById(id);
@@ -47,7 +47,7 @@ export const orderListCurrentUser = (id) => async (dispatch) => {
         dispatch(orderRequestFailed(error.message));
     }
 };
-export const sendOrder = (data) => async (dispatch) => {
+export const sendOrder = (data) => async(dispatch) => {
     dispatch(orderRequested);
     try {
         const content = await orderService.create(data);

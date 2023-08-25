@@ -64,7 +64,7 @@ const {
 //   return dataOne;
 // };
 
-export const loadGoods = () => async (dispatch) => {
+export const loadGoods = () => async(dispatch) => {
     dispatch(goodsRequested());
     try {
         const content = await goodsService.fetchAll();
@@ -74,7 +74,7 @@ export const loadGoods = () => async (dispatch) => {
         dispatch(goodsRequestFailed(error.message));
     }
 };
-export const loadGoodsForAdmin = (path) => async (dispatch) => {
+export const loadGoodsForAdmin = (path) => async(dispatch) => {
     dispatch(goodsRequested());
     try {
         const content = await goodsService.getAllGood(path);
@@ -93,7 +93,7 @@ export const loadGoodsForAdmin = (path) => async (dispatch) => {
 //     dispatch(goodsRequestFailed(error.message));
 //   }
 // };
-export const createGood = (data) => async (dispatch) => {
+export const createGood = (data) => async(dispatch) => {
     dispatch(goodsRequested());
     try {
         const content = await goodsService.create(data);
@@ -102,7 +102,7 @@ export const createGood = (data) => async (dispatch) => {
         dispatch(goodsRequestFailed(error.message));
     }
 };
-export const deleteGoods = (id) => async (dispatch) => {
+export const deleteGoods = (id) => async(dispatch) => {
     dispatch(goodsRequested());
     try {
         // const content = await goodsService.delete(path, id);
@@ -113,7 +113,7 @@ export const deleteGoods = (id) => async (dispatch) => {
         dispatch(goodsRequestFailed(error.message));
     }
 };
-export const updatedGoods = (id, data) => async (dispatch) => {
+export const updatedGoods = (id, data) => async(dispatch) => {
     dispatch(goodsRequested());
     try {
         const content = await goodsService.update(id, data);

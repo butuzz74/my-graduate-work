@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import OrderItem from "../order/orderItem";
+// import OrderItem from "../order/orderItem";
 import localStorageService from "../../service/localStorage.service";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import TableHeader from "../table/TableHeader";
 import TableBody from "../table/TableBody";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,45 +35,38 @@ const OrdersList = () => {
                             <div className="d-flex  flex-column mx-auto justify-content-center align-items-center mt-2">
                                 {!isOrderLoading &&
                                 order &&
-                                order.length > 0 ? (
-                                    <>
-                                        <div className="mb-2">
-                                            <h2>Список заказов</h2>
-                                        </div>
-                                        <div className="table-responsive">
-                                            <table className="table align-middle">
-                                                <TableHeader
-                                                    date={
-                                                        configFile.columsForOrderList
-                                                    }
-                                                />
-                                                <TableBody data={order} />
-                                            </table>
-                                        </div>
-                                        {/* <ol>
-                      {Object.keys(order).map((el, index) => (
-                        <OrderItem
-                          key={el}
-                          time={order[el].info.time}
-                          positions={order[el].content.length}
-                          sum={order[el].info.totalPriceOrder}
-                          order={el}
-                          goToOrderCard={handleGoToOrderCard}
-                        />
-                      ))}
-                    </ol> */}
-                                        <NavLink
-                                            to="/"
-                                            className="btn btn-primary"
-                                        >
+                                order.length > 0
+                                    ? (
+                                        <>
+                                            <div className="mb-2">
+                                                <h2>Список заказов</h2>
+                                            </div>
+                                            <div className="table-responsive">
+                                                <table className="table align-middle">
+                                                    <TableHeader
+                                                        date={
+                                                            configFile.columsForOrderList
+                                                        }
+                                                    />
+                                                    <TableBody data={order} />
+                                                </table>
+                                            </div>
+
+                                            <NavLink
+                                                to="/"
+                                                className="btn btn-primary"
+                                            >
                                             На главную страницу
-                                        </NavLink>
-                                    </>
-                                ) : order && order.length === 0 ? (
-                                    <h2>У Вас не было еще заказов!</h2>
-                                ) : (
-                                    <Loader />
-                                )}
+                                            </NavLink>
+                                        </>
+                                    )
+                                    : order && order.length === 0
+                                        ? (
+                                            <h2>У Вас не было еще заказов!</h2>
+                                        )
+                                        : (
+                                            <Loader />
+                                        )}
                             </div>
                         </div>
                     </div>

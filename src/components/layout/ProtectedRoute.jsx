@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
+import PropTypes from "prop-types";
 import localStorageService from "../../service/localStorage.service";
 
 const ProtectedRoute = ({ component: Component, children, ...rest }) => {
@@ -40,5 +41,12 @@ const ProtectedRoute = ({ component: Component, children, ...rest }) => {
         />
     );
 };
-
+ProtectedRoute.propTypes = {
+    component: PropTypes.func,
+    location: PropTypes.object,
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ])
+};
 export default ProtectedRoute;

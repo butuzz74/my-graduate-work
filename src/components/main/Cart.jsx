@@ -1,15 +1,13 @@
 import React, { useRef } from "react";
+import PropTypes from "prop-types";
 import getTooltip from "../../utils/tooltip";
 import "../../css/tooltip.css";
-
-// import { NavLink } from "react-router-dom";
 
 const Cart = ({ countCart, getAccessInCart, onClearCart }) => {
     const ref = useRef();
 
     return (
         <div
-            // to="/basket"
             className="nav-link text-decoration-underline"
             style={{ color: "white" }}
         >
@@ -38,5 +36,9 @@ const Cart = ({ countCart, getAccessInCart, onClearCart }) => {
         </div>
     );
 };
-
+Cart.propTypes = {
+    countCart: PropTypes.number,
+    getAccessInCart: PropTypes.func,
+    onClearCart: PropTypes.any
+};
 export default Cart;

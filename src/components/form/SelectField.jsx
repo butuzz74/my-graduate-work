@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const SelectField = ({
     label,
@@ -46,4 +47,13 @@ const SelectField = ({
     );
 };
 
+SelectField.propTypes = {
+    label: PropTypes.string,
+    value: PropTypes.string,
+    onChange: PropTypes.func,
+    defaultOptions: PropTypes.string,
+    options: PropTypes.array,
+    error: PropTypes.string,
+    name: PropTypes.string
+};
 export default SelectField;

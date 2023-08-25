@@ -1,8 +1,9 @@
 import React from "react";
+import PropTypes from "prop-types";
 import configFile from "../../config/config.json";
 import { displayDate } from "../../utils/displayDate";
-import { useSelector } from "react-redux";
-import { getOrderItemById } from "../../store/orderSlice";
+// import { useSelector } from "react-redux";
+// import { getOrderItemById } from "../../store/orderSlice";
 import { useHistory } from "react-router-dom";
 
 const TableBody = ({ data }) => {
@@ -44,5 +45,7 @@ const TableBody = ({ data }) => {
         </tbody>
     );
 };
-
+TableBody.propTypes = {
+    data: PropTypes.array
+};
 export default TableBody;

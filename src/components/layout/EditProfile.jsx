@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import TextField from "../form/TextField";
 import { validator } from "../../utils/validator";
 import { validatorConfig } from "../../config/config";
-import { getCurrentUserId } from "../../service/localStorage.service";
+// import { getCurrentUserId } from "../../service/localStorage.service";
 import { useDispatch, useSelector } from "react-redux";
 import { getIsLoggedIn, updateCurrentUser } from "../../store/usersSlice";
 import localStorageService from "../../service/localStorage.service";

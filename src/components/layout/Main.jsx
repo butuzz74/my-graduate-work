@@ -78,10 +78,10 @@ const Main = () => {
     const countPage = cardsCategory
         ? Math.ceil(cardsCategory.length / countItemOnPage)
         : cardChoice.length !== 0
-        ? Math.ceil(cardChoice.length / countItemOnPage)
-        : goods
-        ? Math.ceil(goods.length / countItemOnPage)
-        : 0;
+            ? Math.ceil(cardChoice.length / countItemOnPage)
+            : goods
+                ? Math.ceil(goods.length / countItemOnPage)
+                : 0;
 
     const itemForPage =
         cardChoice.length !== 0 ? [...cardChoice] : goods && [...goods];
@@ -96,38 +96,40 @@ const Main = () => {
     const itemOnPage = pagination(itemForPage, activePage);
     const itemOnPageCategory = pagination(itemForPageCategory, activePage);
 
-    return !isGoodLoading ? (
-        <div className="main py-3 px-3">
-            <div className="d-flex justify-content-end align-items-baseline ">
-                <Search onSearch={handleOnSearch} value={value} />
-                <Cart
-                    countCart={countCart}
-                    getAccessInCart={getAccessInCart}
-                    onClearCart={handleClearCart}
+    return !isGoodLoading
+        ? (
+            <div className="main py-3 px-3">
+                <div className="d-flex justify-content-end align-items-baseline ">
+                    <Search onSearch={handleOnSearch} value={value} />
+                    <Cart
+                        countCart={countCart}
+                        getAccessInCart={getAccessInCart}
+                        onClearCart={handleClearCart}
+                    />
+                </div>
+                <div className="content">
+                    <CategoriesList
+                        cardsInfo={goods}
+                        onCategoryItems={handleCategoryItems}
+                        onBack={handleOnBack}
+                    />
+                    <CardList
+                        cardsInfo={
+                            itemOnPageCategory || itemOnPage
+                        }
+                        onCountCart={handleCountCart}
+                    />
+                </div>
+                <Pagination
+                    countPage={countPage}
+                    activePage={activePage}
+                    onActivePage={handleActivePage}
                 />
             </div>
-            <div className="content">
-                <CategoriesList
-                    cardsInfo={goods}
-                    onCategoryItems={handleCategoryItems}
-                    onBack={handleOnBack}
-                />
-                <CardList
-                    cardsInfo={
-                        itemOnPageCategory ? itemOnPageCategory : itemOnPage
-                    }
-                    onCountCart={handleCountCart}
-                />
-            </div>
-            <Pagination
-                countPage={countPage}
-                activePage={activePage}
-                onActivePage={handleActivePage}
-            />
-        </div>
-    ) : (
-        <Loader />
-    );
+        )
+        : (
+            <Loader />
+        );
 };
 
 export default Main;

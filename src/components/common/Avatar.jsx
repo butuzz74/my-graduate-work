@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const Avatar = ({ avatarName, logOut }) => {
     const [show, setShow] = useState(false);
@@ -45,5 +46,8 @@ const Avatar = ({ avatarName, logOut }) => {
         </div>
     );
 };
-
+Avatar.propTypes = {
+    avatarName: PropTypes.string,
+    logOut: PropTypes.func
+};
 export default Avatar;

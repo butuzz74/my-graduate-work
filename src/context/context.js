@@ -1,4 +1,5 @@
-import { createContext } from "react";
+import React, { createContext } from "react";
+import PropTypes from "prop-types";
 import { getAccessToken } from "../service/localStorage.service";
 import { useHistory } from "react-router-dom";
 
@@ -23,4 +24,7 @@ export const MainPageContextProvider = ({ children }) => {
             {children}
         </MainPageContext.Provider>
     );
+};
+MainPageContextProvider.propTypes = {
+    children: PropTypes.any
 };

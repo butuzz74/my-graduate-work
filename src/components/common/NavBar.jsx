@@ -18,7 +18,7 @@ const NavBar = () => {
     return (
         <div className="navbar">
             <div className="navheader text-white">
-                <p>OOO "Системы отображения информации"</p>
+                <p>OOO Системы отображения информации </p>
             </div>
             <div className="navline">
                 <ul className="nav nav-pills mt-2 d-flex justify-content-center me-5">
@@ -64,12 +64,14 @@ const NavBar = () => {
                     </li>
                 </ul>
             </div>
-            {currentUser ? (
-                <Avatar
-                    avatarName={currentUser.nick.substring(0, 1).toUpperCase()}
-                    logOut={handleLogOut}
-                />
-            ) : null}
+            {currentUser
+                ? (
+                    <Avatar
+                        avatarName={currentUser.nick.substring(0, 1).toUpperCase()}
+                        logOut={handleLogOut}
+                    />
+                )
+                : null}
         </div>
     );
 };

@@ -83,10 +83,10 @@ const EditGoodsList = () => {
     const countPage = cardsCategory
         ? Math.ceil(cardsCategory.length / countItemOnPage)
         : cardChoice.length !== 0
-        ? Math.ceil(cardChoice.length / countItemOnPage)
-        : goods
-        ? Math.ceil(goods.length / countItemOnPage)
-        : 0;
+            ? Math.ceil(cardChoice.length / countItemOnPage)
+            : goods
+                ? Math.ceil(goods.length / countItemOnPage)
+                : 0;
     const itemForPage =
         cardChoice.length !== 0 && goods.length !== 0
             ? [...cardChoice]
@@ -111,46 +111,48 @@ const EditGoodsList = () => {
 
     return !isGoodLoading &&
         goods.length !== 0 &&
-        (itemOnPage || itemOnPageCategory) ? (
-        <div className="main py-3 px-3">
-            <div className="d-flex justify-content-end align-items-baseline ">
-                <Search onSearch={handleOnSearch} value={value} />
-                <Button
-                    className={"btn btn-success mt-2"}
-                    onClick={() => history.push("/goodsaddtest")}
-                >
+        (itemOnPage || itemOnPageCategory)
+        ? (
+            <div className="main py-3 px-3">
+                <div className="d-flex justify-content-end align-items-baseline ">
+                    <Search onSearch={handleOnSearch} value={value} />
+                    <Button
+                        className={"btn btn-success mt-2"}
+                        onClick={() => history.push("/goodsaddtest")}
+                    >
                     Добавить
-                </Button>
-                <Button
-                    className={"btn btn-success mt-2 ms-2"}
-                    onClick={() => history.push("/")}
-                >
+                    </Button>
+                    <Button
+                        className={"btn btn-success mt-2 ms-2"}
+                        onClick={() => history.push("/")}
+                    >
                     На главную страницу
-                </Button>
-            </div>
-            <div className="content">
-                <CategoriesList
-                    cardsInfo={goods}
-                    onCategoryItems={handleCategoryItems}
-                    onBack={handleOnBack}
+                    </Button>
+                </div>
+                <div className="content">
+                    <CategoriesList
+                        cardsInfo={goods}
+                        onCategoryItems={handleCategoryItems}
+                        onBack={handleOnBack}
+                    />
+                    <CardList
+                        cardsInfo={
+                            itemOnPageCategory || itemOnPage
+                        }
+                        path={path}
+                        onDelete={handleDeleteGood}
+                    />
+                </div>
+                <Pagination
+                    countPage={countPage}
+                    activePage={activePage}
+                    onActivePage={handleActivePage}
                 />
-                <CardList
-                    cardsInfo={
-                        itemOnPageCategory ? itemOnPageCategory : itemOnPage
-                    }
-                    path={path}
-                    onDelete={handleDeleteGood}
-                />
             </div>
-            <Pagination
-                countPage={countPage}
-                activePage={activePage}
-                onActivePage={handleActivePage}
-            />
-        </div>
-    ) : (
-        <Loader />
-    );
+        )
+        : (
+            <Loader />
+        );
 };
 
 export default EditGoodsList;

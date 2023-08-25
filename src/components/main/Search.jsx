@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const Search = ({ value, onSearch }) => {
     return (
@@ -13,5 +14,8 @@ const Search = ({ value, onSearch }) => {
         </div>
     );
 };
-
+Search.propTypes = {
+    value: PropTypes.string,
+    onSearch: PropTypes.func
+};
 export default Search;

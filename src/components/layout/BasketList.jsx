@@ -18,7 +18,7 @@ const BasketList = () => {
         return sum + +item.amount * +item.price.split(" ").join("");
     }, 0);
 
-    const handleSendOrder = async () => {
+    const handleSendOrder = async() => {
         const a = selectedGood.map((e) => ({ amount: e.amount, _id: e._id }));
         // const infoOrder = { totalPriceOrder, time: Date.now() };
         // const infoOrder = { totalPriceOrder };

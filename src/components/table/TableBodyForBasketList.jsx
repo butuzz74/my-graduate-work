@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import configFile from "../../config/config.json";
 import { useDispatch } from "react-redux";
 import {
@@ -54,5 +55,7 @@ const TableBodyForBasketList = ({ data }) => {
         </tbody>
     );
 };
-
+TableBodyForBasketList.propTypes = {
+    data: PropTypes.array
+};
 export default TableBodyForBasketList;
