@@ -1,4 +1,31 @@
 {
-    "apiEndpoint": "https://my-graduate-work-7fde2-default-rtdb.europe-west1.firebasedatabase.app/",
-  "isFireBase": true
+    "apiEndpointForFirebase": "https://my-graduate-work-7fde2-default-rtdb.europe-west1.firebasedatabase.app/",
+    "apiEndpoint": "http://localhost:8080/api/",
+    "isFireBase": false,
+    "category": ["projectors", "monitor", "videowall", "screen"],
+    "columsForOrderList": {
+        "pos": "#",
+        "idOrder": "Номер заказа",
+        "dateOrder": "Дата заказа",
+        "amount": "Кол-во",
+        "sumOrder": "Сумма заказа"
+    },
+    "columsForOrderItem": {
+        "pos": "#",
+        "idOrder": "Номер заказа",
+        "dateOrder": "Дата заказа",
+        "namePos": "Позиция заказа",
+        "price": "Цена",
+        "amount": "Кол-во",
+        "sumOrder": "Сумма заказа"
+    },
+    "columsForBasketItem": {
+        "pos": "#",
+        "brand": "Бренд",
+        "model": "Модель",
+        "price": "Цена",
+        "amount": "Кол-во",
+        "sumOrder": "Сумма",
+        "delete": "Удалить"
+    }
 }

@@ -1,63 +1,84 @@
-import React, { useContext } from "react";
-import { NavLink } from "react-router-dom";
-import { MainPageContext } from "../../context/context";
-import BasketItem from "../BasketItem";
+import React from "react";
+import { NavLink, useHistory } from "react-router-dom";
+import TableHeader from "../table/TableHeader";
+import configFile from "../../config/config.json";
+import localStorageService from "../../service/localStorage.service";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCart, getSelectedGood } from "../../store/cartSlice";
+import { sendOrder } from "../../store/orderSlice";
+import TableBodyForBasketList from "../table/TableBodyForBasketList";
+import Button from "../common/Button";
 
 const BasketList = () => {
-  const { selectedGood } = useContext(MainPageContext);
-  const totalPriceOrder = selectedGood.reduce((sum, item) => {
-    return sum + +item.amount * +item.price;
-  }, 0);
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const selectedGood = useSelector(getSelectedGood());
 
-  const handleSendOrder = () => {
-    const totalOrder = [...selectedGood, { totalPriceOrder }];
-    console.log(totalOrder);
-  };
+    const totalPriceOrder = selectedGood.reduce((sum, item) => {
+        return sum + +item.amount * +item.price.split(" ").join("");
+    }, 0);
 
-  return (
-    <>
-      <div className="login">
-        <div className="row">
-          <div className="col-md-6 offset-md-3 p-4 shadow mt-5 bg-white">
-            <div className="d-flex justify-content-center">
-              <div className="d-flex  flex-column mx-auto justify-content-center align-items-center mt-2">
-                <div className="mb-2">
-                  <h2>Корзина</h2>
+    const handleSendOrder = async() => {
+        const a = selectedGood.map((e) => ({ amount: e.amount, _id: e._id }));
+        // const infoOrder = { totalPriceOrder, time: Date.now() };
+        // const infoOrder = { totalPriceOrder };
+        const y = {
+            userId: localStorageService.getCurrentUserId(),
+            content: a,
+            totalPriceOrder
+        };
+
+        dispatch(
+            // sendOrder(localStorageService.getCurrentUserId(), selectedGood, infoOrder)
+            sendOrder(y)
+        );
+        dispatch(clearCart());
+        history.push("/");
+    };
+    return (
+        <>
+            <div className="login d-flex justify-content-center align-items-center">
+                <div className="row justify-content-md-center">
+                    <div className="col-md-auto md-3 p-4 shadow mt-5 bg-white mb-5 rounded-4">
+                        <div className="d-flex justify-content-center">
+                            <div className="d-flex  flex-column mx-auto justify-content-center align-items-center mt-2">
+                                <div className="mb-2">
+                                    <h2>Корзина</h2>
+                                </div>
+                                <div className="table-responsive">
+                                    <table className="table align-middle">
+                                        <TableHeader
+                                            date={
+                                                configFile.columsForBasketItem
+                                            }
+                                        />
+                                        <TableBodyForBasketList
+                                            data={selectedGood}
+                                        />
+                                    </table>
+                                </div>
+                                <h2>Общая сумма заказа : {totalPriceOrder}</h2>
+                                <div
+                                    className="d-flex justify-content-between mt-4"
+                                    style={{ width: "500px" }}
+                                >
+                                    <Button
+                                        className={"btn btn-primary"}
+                                        onClick={handleSendOrder}
+                                    >
+                                        Отправить заказ
+                                    </Button>
+                                    <NavLink to="/" className="btn btn-primary">
+                                        На главную страницу
+                                    </NavLink>
+                                </div>
+                            </div>{" "}
+                        </div>
+                    </div>
                 </div>
-                <ol>
-                  {selectedGood.length !== 0 ? (
-                    selectedGood.map((item) => (
-                      <BasketItem key={item.id} {...item} />
-                    ))
-                  ) : (
-                    <h3>Корзина пуста</h3>
-                  )}
-                </ol>
-                <h2>Общая сумма заказа : {totalPriceOrder}</h2>
-                <div
-                  className="d-flex justify-content-between mt-4"
-                  style={{ width: "500px" }}
-                >
-                  <button
-                    className="btn btn-primary"
-                    onClick={handleSendOrder}
-                  >
-                    Отправить заказ
-                  </button>
-                  <NavLink
-                    to="/"
-                    className="btn btn-primary"
-                  >
-                    На главную страницу
-                  </NavLink>
-                </div>
-              </div>{" "}
             </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+        </>
+    );
 };
 
 export default BasketList;
