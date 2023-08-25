@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const Button = ({ className, onClick, children }) => {
     return (
@@ -7,5 +7,5 @@ const Button = ({ className, onClick, children }) => {
         </button>
     );
 };
- 
+
 export default Button;

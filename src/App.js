@@ -29,62 +29,80 @@ import GoodAddAndUpdate from "./components/layout/GoodAddAndUpdate";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
 
 function App() {
-  const dispatch = useDispatch();
-  const currentUser = useSelector(getIsLoggedIn());  
-  useEffect(() => {
-    dispatch(loadGoods());
-    toast("Загрузка произошла успешно!");
-    if (localStorageService.getAccessToken()) {
-      dispatch(getCurrentUser());
-    }
-  }, []);
-  return (
-    <div className="maincontainer">
-      <AuthProvider>
-        <NavBar />
-        <div className="innercontent">
-          <MainPageContextProvider>
-            <Switch>
-              <Route path="/" exact component={Main} />
-              <ProtectedRoute path="/order/:orderId" component={OrderItem} />
-              <ProtectedRoute
-                admin={currentUser ? currentUser.admin : null}
-                path="/cardaddgood"
-                component={EditGoodsList}
-              />
-              <ProtectedRoute
-                admin={currentUser ? currentUser.admin : null}
-                path="/goodsaddtest"
-                component={GoodAddAndUpdate}
-              />
-              <ProtectedRoute
-                admin={currentUser ? currentUser.admin : null}
-                path="/cardeditgood/:cardId?"
-                component={GoodAddAndUpdate}
-              />
-              <ProtectedRoute path="/ordercard" component={OrderCard} />
-              <ProtectedRoute path="/orderslist" component={OrdersList} />
-              <ProtectedRoute path="/basket" component={BasketList} />
-              <ProtectedRoute path="/profile" component={ProfileCard} />
-              <Route path="/signup" component={SignUp} />
-              <Route path="/edit" component={EditProfile} />
-              <Route
-                path="/paymentAndDelivery"
-                component={PaymentAndDelivery}
-              />
-              <Route path="/contactInfo" component={ContactInfo} />
-              <Route path="/aboutUs" component={AboutUs} />
-              <Route path="/signin" component={SignIn} />
-              <Route path="/:cardId" component={CardItem} />
-              <Route component={NotFound} />
-            </Switch>
-          </MainPageContextProvider>
+    const dispatch = useDispatch();
+    const currentUser = useSelector(getIsLoggedIn());
+    useEffect(() => {
+        dispatch(loadGoods());
+        toast("Загрузка произошла успешно!");
+        if (localStorageService.getAccessToken()) {
+            dispatch(getCurrentUser());
+        }
+    }, []);
+    return (
+        <div className="maincontainer">
+            <AuthProvider>
+                <NavBar />
+                <div className="innercontent">
+                    <MainPageContextProvider>
+                        <Switch>
+                            <Route path="/" exact component={Main} />
+                            <ProtectedRoute
+                                path="/order/:orderId"
+                                component={OrderItem}
+                            />
+                            <ProtectedRoute
+                                admin={currentUser ? currentUser.admin : null}
+                                path="/cardaddgood"
+                                component={EditGoodsList}
+                            />
+                            <ProtectedRoute
+                                admin={currentUser ? currentUser.admin : null}
+                                path="/goodsaddtest"
+                                component={GoodAddAndUpdate}
+                            />
+                            <ProtectedRoute
+                                admin={currentUser ? currentUser.admin : null}
+                                path="/cardeditgood/:cardId?"
+                                component={GoodAddAndUpdate}
+                            />
+                            <ProtectedRoute
+                                path="/ordercard"
+                                component={OrderCard}
+                            />
+                            <ProtectedRoute
+                                path="/orderslist"
+                                component={OrdersList}
+                            />
+                            <ProtectedRoute
+                                path="/basket"
+                                component={BasketList}
+                            />
+                            <ProtectedRoute
+                                path="/profile"
+                                component={ProfileCard}
+                            />
+                            <Route path="/signup" component={SignUp} />
+                            <Route path="/edit" component={EditProfile} />
+                            <Route
+                                path="/paymentAndDelivery"
+                                component={PaymentAndDelivery}
+                            />
+                            <Route
+                                path="/contactInfo"
+                                component={ContactInfo}
+                            />
+                            <Route path="/aboutUs" component={AboutUs} />
+                            <Route path="/signin" component={SignIn} />
+                            <Route path="/:cardId" component={CardItem} />
+                            <Route component={NotFound} />
+                        </Switch>
+                    </MainPageContextProvider>
+                </div>
+                <Footer />
+            </AuthProvider>
+            <ToastContainer />
         </div>
-        <Footer />
-      </AuthProvider>
-      <ToastContainer />
-    </div>
-  );
+    );
 }
 
 export default App;

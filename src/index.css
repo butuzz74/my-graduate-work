@@ -1,96 +1,94 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+        "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
 }
 .maincontainer {
-  display: grid;
-  min-height: 100vh;
-  grid-template-rows: min-content minmax(100px, 1fr) 40px;
+    display: grid;
+    min-height: 100vh;
+    grid-template-rows: min-content minmax(100px, 1fr) 40px;
 }
-.navheader{
-  min-height: 100%;
-  margin-top: 0;
-  padding-left: 15px;
-  font-size: 26px;
-  font-weight: bold;
+.navheader {
+    min-height: 100%;
+    margin-top: 0;
+    padding-left: 15px;
+    font-size: 26px;
+    font-weight: bold;
 }
 .navbar {
-  display: grid;
-  grid-template-columns: 1fr 1fr 60px;
-  background: #ad6c2f;
-  position: relative;  
+    display: grid;
+    grid-template-columns: 1fr 1fr 60px;
+    background: #ad6c2f;
+    position: relative;
 }
 .footer {
-  display: flex;
-  justify-content: space-around;
-  background: #ad6c2f;
-  color: #fff;
+    display: flex;
+    justify-content: space-around;
+    background: #ad6c2f;
+    color: #fff;
 }
 .notfound {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: url(images/cinema-5069314_1920.jpg) no-repeat center/cover;
-  color: #fff;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: url(images/cinema-5069314_1920.jpg) no-repeat center/cover;
+    color: #fff;
 }
 .login {
-  width: 100%;
-  height: 100%;
-  background: url(images/cinema-5069314_1920.jpg) no-repeat center/cover;
+    width: 100%;
+    height: 100%;
+    background: url(images/cinema-5069314_1920.jpg) no-repeat center/cover;
 }
 .content {
-  width: 100%;
-  display: flex;    
+    width: 100%;
+    display: flex;
 }
 .main {
-  min-height: calc(100vh - 65px - 40px);
-  background: url(images/head-674131_1920.jpg) no-repeat center/cover;
+    min-height: calc(100vh - 65px - 40px);
+    background: url(images/head-674131_1920.jpg) no-repeat center/cover;
 }
 .card {
-  box-shadow: 2px 4px 5px 5px #4f10ce4f;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+    box-shadow: 2px 4px 5px 5px #4f10ce4f;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .card-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 .card-item {
-  max-width: 80%;
-  min-height: calc(100vh - 80px - 60px);
-  margin: 1rem auto;
+    max-width: 80%;
+    min-height: calc(100vh - 80px - 60px);
+    margin: 1rem auto;
 }
 .avatar {
-  position: absolute;
-  top: 20%;
-  right: 5px;
+    position: absolute;
+    top: 20%;
+    right: 5px;
 }
-.navline{
-  min-height: 100%;
+.navline {
+    min-height: 100%;
 }
 
-
-@media (max-width: 550px) {  
-  .nav{
-    flex-direction: column;
-  }
-  .navheader{
-    padding-left: 5px;
-    font-size: 20px;
-  }
+@media (max-width: 550px) {
+    .nav {
+        flex-direction: column;
+    }
+    .navheader {
+        padding-left: 5px;
+        font-size: 20px;
+    }
 }

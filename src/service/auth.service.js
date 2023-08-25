@@ -1,6 +1,6 @@
 import axios from "axios";
 import localStorageService from "./localStorage.service";
-import configFile from "../config/config.json"
+import configFile from "../config/config.json";
 
 const httpAuth = axios.create({
     // baseURL: "https://identitytoolkit.googleapis.com/v1/",
@@ -17,7 +17,7 @@ const authService = {
             password,
             nick,
             returnSecureToken: true
-        });        
+        });
         return data;
     },
     login: async ({ email, password }) => {

@@ -1,6 +1,5 @@
 import React from "react";
 
-
 const SelectField = ({
     label,
     value,
@@ -46,6 +45,5 @@ const SelectField = ({
         </div>
     );
 };
-
 
 export default SelectField;

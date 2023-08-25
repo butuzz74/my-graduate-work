@@ -7,58 +7,58 @@ import authService from "./auth.service";
 axios.defaults.baseURL = configFile.apiEndpoint;
 
 axios.interceptors.request.use(
-  // function (config) {
-  //   if (configFile.isFireBase) {
-  //     const containSlash = /\/$/gi.test(config.url);
-  //     config.url =
-  //       (containSlash ? config.url.slice(0, -1) : config.url) + ".json";
-  //   }
-  //   return config;
-  // },
-  // function (error) {
-  //   return Promise.reject(error);
-  // }
-  async function (config) {
-    const expiresDate = localStorageService.getTokenExpiresDate();
-    const refreshToken = localStorageService.getRefreshToken();
-    const isExpired = refreshToken && expiresDate < Date.now();
+    // function (config) {
+    //   if (configFile.isFireBase) {
+    //     const containSlash = /\/$/gi.test(config.url);
+    //     config.url =
+    //       (containSlash ? config.url.slice(0, -1) : config.url) + ".json";
+    //   }
+    //   return config;
+    // },
+    // function (error) {
+    //   return Promise.reject(error);
+    // }
+    async function (config) {
+        const expiresDate = localStorageService.getTokenExpiresDate();
+        const refreshToken = localStorageService.getRefreshToken();
+        const isExpired = refreshToken && expiresDate < Date.now();
 
-    if (configFile.isFireBase) {
-      const containSlash = /\/$/gi.test(config.url);
-      config.url =
-        (containSlash ? config.url.slice(0, -1) : config.url) + ".json";
-      if (isExpired) {
-        const data = await authService.refresh();
+        if (configFile.isFireBase) {
+            const containSlash = /\/$/gi.test(config.url);
+            config.url =
+                (containSlash ? config.url.slice(0, -1) : config.url) + ".json";
+            if (isExpired) {
+                const data = await authService.refresh();
 
-        localStorageService.setTokens({
-          refreshToken: data.refresh_token,
-          idToken: data.id_token,
-          expiresIn: data.expires_in,
-          localId: data.user_id,
-        });
-      }
-      const accessToken = localStorageService.getAccessToken();
-      if (accessToken) {
-        config.params = { ...config.params, auth: accessToken };
-      }
-    } else {
-      if (isExpired) {
-        const data = await authService.refresh();
-        localStorageService.setTokens(data);
-      }
-      const accessToken = localStorageService.getAccessToken();
-      if (accessToken) {
-        config.headers = {
-          ...config.headers,
-          Authorization: `Bearer ${accessToken}`,
-        };
-      }
+                localStorageService.setTokens({
+                    refreshToken: data.refresh_token,
+                    idToken: data.id_token,
+                    expiresIn: data.expires_in,
+                    localId: data.user_id
+                });
+            }
+            const accessToken = localStorageService.getAccessToken();
+            if (accessToken) {
+                config.params = { ...config.params, auth: accessToken };
+            }
+        } else {
+            if (isExpired) {
+                const data = await authService.refresh();
+                localStorageService.setTokens(data);
+            }
+            const accessToken = localStorageService.getAccessToken();
+            if (accessToken) {
+                config.headers = {
+                    ...config.headers,
+                    Authorization: `Bearer ${accessToken}`
+                };
+            }
+        }
+        return config;
+    },
+    function (error) {
+        return Promise.reject(error);
     }
-    return config;
-  },
-  function (error) {
-    return Promise.reject(error);
-  }
 );
 
 // function transformData(data) {
@@ -86,11 +86,11 @@ axios.interceptors.request.use(
 // );
 
 const htppService = {
-  get: axios.get,
-  post: axios.post,
-  put: axios.put,
-  delete: axios.delete,
-  patch: axios.patch,
+    get: axios.get,
+    post: axios.post,
+    put: axios.put,
+    delete: axios.delete,
+    patch: axios.patch
 };
 
 export default htppService;

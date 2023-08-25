@@ -60,5 +60,5 @@ export const validatorConfig = {
         isRequired: {
             message: "Поле обязательно для заполнения"
         }
-    },
+    }
 };
