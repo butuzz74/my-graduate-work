@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Main from "./components/layout/Main";
 import NotFound from "./components/layout/NotFound";
 import SignUp from "./components/layout/SignUp";
@@ -20,21 +20,23 @@ import EditProfile from "./components/layout/EditProfile";
 import OrdersList from "./components/layout/OrdersList";
 import OrderCard from "./components/order/OrderCard";
 import EditGoodsList from "./components/layout/EditGoodsList";
-import { getCurrentUser } from "./store/usersSlice";
+import { getCurrentUser, getIsLoggedIn } from "./store/usersSlice";
 import localStorageService from "./service/localStorage.service";
 import OrderItem from "./components/layout/OrderItem";
-import "react-toastify/dist/ReactToastify.css"
+import "react-toastify/dist/ReactToastify.css";
 import { loadGoods } from "./store/goodsSlice";
 import GoodAddAndUpdate from "./components/layout/GoodAddAndUpdate";
+import ProtectedRoute from "./components/layout/ProtectedRoute";
 
 function App() {
   const dispatch = useDispatch();
-  useEffect(() => {   
+  const currentUser = useSelector(getIsLoggedIn());  
+  useEffect(() => {
     dispatch(loadGoods());
-    toast("Загрузка произошла успешно!")        
+    toast("Загрузка произошла успешно!");
     if (localStorageService.getAccessToken()) {
       dispatch(getCurrentUser());
-    }    
+    }
   }, []);
   return (
     <div className="maincontainer">
@@ -44,16 +46,27 @@ function App() {
           <MainPageContextProvider>
             <Switch>
               <Route path="/" exact component={Main} />
-              {/* <Route path="/card:cardId?" component={CardItem}/> */}
-              <Route path="/order/:orderId" component={OrderItem}/>              
-              <Route path="/cardaddgood" component={EditGoodsList} />
-              <Route path="/goodsaddtest" component={GoodAddAndUpdate}/>                             
-              <Route path="/cardeditgood/:cardId?" component={GoodAddAndUpdate} />
-              <Route path="/ordercard" component={OrderCard} />
-              <Route path="/orderslist" component={OrdersList} />
-              <Route path="/basket" component={BasketList} />
+              <ProtectedRoute path="/order/:orderId" component={OrderItem} />
+              <ProtectedRoute
+                admin={currentUser ? currentUser.admin : null}
+                path="/cardaddgood"
+                component={EditGoodsList}
+              />
+              <ProtectedRoute
+                admin={currentUser ? currentUser.admin : null}
+                path="/goodsaddtest"
+                component={GoodAddAndUpdate}
+              />
+              <ProtectedRoute
+                admin={currentUser ? currentUser.admin : null}
+                path="/cardeditgood/:cardId?"
+                component={GoodAddAndUpdate}
+              />
+              <ProtectedRoute path="/ordercard" component={OrderCard} />
+              <ProtectedRoute path="/orderslist" component={OrdersList} />
+              <ProtectedRoute path="/basket" component={BasketList} />
+              <ProtectedRoute path="/profile" component={ProfileCard} />
               <Route path="/signup" component={SignUp} />
-              <Route path="/profile" component={ProfileCard} />
               <Route path="/edit" component={EditProfile} />
               <Route
                 path="/paymentAndDelivery"

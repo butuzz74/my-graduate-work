@@ -72,6 +72,16 @@ export const loadGoods = () => async (dispatch) => {
     dispatch(goodsRequestFailed(error.message));
   }
 };
+export const loadGoodsForAdmin = (path) => async (dispatch) => {
+  dispatch(goodsRequested());
+  try {
+    const content = await goodsService.getAllGood(path);    
+    // const newContent = transformationData(content);
+    dispatch(goodsReceived(content));
+  } catch (error) {
+    dispatch(goodsRequestFailed(error.message));
+  }
+};
 // export const createGood = (path, data) => async (dispatch) => {
 //   dispatch(goodsRequested());
 //   try {

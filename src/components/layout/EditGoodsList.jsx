@@ -5,27 +5,41 @@ import Pagination from "../main/Pagination";
 import Search from "../main/Search";
 import CategoriesList from "../main/CategoriesList";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteGoods, getGoodsRedux } from "../../store/goodsSlice";
+import {
+  deleteGoods,
+  getGoodsLoadingStatus,
+  getGoodsRedux,
+  loadGoodsForAdmin,
+} from "../../store/goodsSlice";
 import Button from "../common/Button";
+import Loader from "../common/Loader";
 
 const EditGoodsList = () => {
   const dispatch = useDispatch();
+  const isGoodLoading = useSelector(getGoodsLoadingStatus());
   const { location } = useHistory();
   const history = useHistory();
   const path = location.pathname;
   const countItemOnPage = 4;
-  const goodsRedux = useSelector(getGoodsRedux());
+  // const goodsRedux = useSelector(getGoodsRedux());
   const [goods, setGoods] = useState([]);
   const [cardsCategory, setCardsCategory] = useState();
   const [cardChoice, setCardsChoice] = useState([]);
   const [activePage, setActivePage] = useState(1);
   const [value, setValue] = useState("");
 
+  // useEffect(() => {
+  //   setGoods(goodsRedux);
+  // }, [goodsRedux]);
+  useEffect(() => {
+    dispatch(loadGoodsForAdmin(path));
+  }, []);
+  const goodsRedux = useSelector(getGoodsRedux());
   useEffect(() => {
     setGoods(goodsRedux);
   }, [goodsRedux]);
   const handleCategoryItems = (cat) => {
-    setCardsCategory(goods.filter((card) => card.type === cat));    
+    setCardsCategory(goods.filter((card) => card.type === cat));
     setActivePage(1);
   };
   const handleOnBack = () => {
@@ -38,7 +52,7 @@ const EditGoodsList = () => {
   // const handleDeleteGood = (path, id) => {
   //   dispatch(deleteGoods(path, id));
   // };
-  const handleDeleteGood = (id) => {    
+  const handleDeleteGood = (id) => {
     dispatch(deleteGoods(id));
   };
 
@@ -89,16 +103,26 @@ const EditGoodsList = () => {
 
   const itemOnPage = pagination(itemForPage, activePage);
   const itemOnPageCategory = pagination(itemForPageCategory, activePage);
-
+  
   return (
-    goods &&
+    !isGoodLoading &&
     goods.length !== 0 &&
-    (itemOnPage || itemOnPageCategory) && (
+    (itemOnPage || itemOnPageCategory) ? (
       <div className="main py-3 px-3">
         <div className="d-flex justify-content-end align-items-baseline ">
           <Search onSearch={handleOnSearch} value={value} />
-          <Button className={"btn btn-success mt-2"} onClick={() => history.push("/goodsaddtest")}>Добавить</Button>
-          <Button className={"btn btn-success mt-2 ms-2"} onClick={() => history.push("/")}>На главную страницу</Button>
+          <Button
+            className={"btn btn-success mt-2"}
+            onClick={() => history.push("/goodsaddtest")}
+          >
+            Добавить
+          </Button>
+          <Button
+            className={"btn btn-success mt-2 ms-2"}
+            onClick={() => history.push("/")}
+          >
+            На главную страницу
+          </Button>
         </div>
         <div className="content">
           <CategoriesList
@@ -118,7 +142,7 @@ const EditGoodsList = () => {
           onActivePage={handleActivePage}
         />
       </div>
-    )
+    ) : <Loader/>
   );
 };
 

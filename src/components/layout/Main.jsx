@@ -6,23 +6,31 @@ import Pagination from "../main/Pagination";
 import Cart from "../main/Cart";
 import { MainPageContext } from "../../context/context";
 import { useDispatch, useSelector } from "react-redux";
-import { getProjectorsLoadingStatus } from "../../store/projectorsSlice";
 import { addGood, clearCart, getCountCart } from "../../store/cartSlice";
-import { getGoodsRedux } from "../../store/goodsSlice";
+import { getGoodsLoadingStatus, getGoodsRedux, loadGoods } from "../../store/goodsSlice";
 import Loader from "../common/Loader";
 
 const Main = () => {
   const dispatch = useDispatch();
-  const isLoading = useSelector(getProjectorsLoadingStatus());
-  const goods = useSelector(getGoodsRedux());
+  const isGoodLoading = useSelector(getGoodsLoadingStatus());
+  // const goods = useSelector(getGoodsRedux());
   const countCart = useSelector(getCountCart());
   const { getAccessInCart } = useContext(MainPageContext);
   const countItemOnPage = 4;
+  const [goods, setGoods] = useState([]);
   const [cardsCategory, setCardsCategory] = useState();
   const [cardChoice, setCardsChoice] = useState([]);
   const [activePage, setActivePage] = useState(1);
   const [value, setValue] = useState("");
 
+  useEffect(() => {
+    dispatch(loadGoods());
+  }, []);
+  const goodsRedux = useSelector(getGoodsRedux());
+  useEffect(() => {
+    setGoods(goodsRedux);
+  }, [goodsRedux]);
+  
   const handleCategoryItems = (cat) => {
     setCardsCategory(goods.filter((card) => card.type === cat));
     setActivePage(1);
@@ -81,8 +89,9 @@ const Main = () => {
   };
   const itemOnPage = pagination(itemForPage, activePage);
   const itemOnPageCategory = pagination(itemForPageCategory, activePage);
+  
   return (
-    goods ? (
+    !isGoodLoading ? (
       <div className="main py-3 px-3">
         <div className="d-flex justify-content-end align-items-baseline ">
           <Search onSearch={handleOnSearch} value={value} />

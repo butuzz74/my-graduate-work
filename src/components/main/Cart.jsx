@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useRef } from "react";
+import getTooltip from "../../utils/tooltip";
+import "../../css/tooltip.css"
+
 // import { NavLink } from "react-router-dom";
 
 const Cart = ({ countCart, getAccessInCart, onClearCart }) => {  
+  const ref = useRef();  
+  
   return (
     <div
       // to="/basket"
@@ -21,6 +26,10 @@ const Cart = ({ countCart, getAccessInCart, onClearCart }) => {
         className={
           countCart === 0 ? "bi bi-trash ms-1" : "bi bi-trash-fill ms-1"
         }
+        ref={ref}
+        data-bs-toggle={getTooltip(ref)}
+        data-bs-custom-class="custom-tooltip"
+        data-bs-title="Очистить корзину"
         role="button"
         onClick={onClearCart}
       ></i>

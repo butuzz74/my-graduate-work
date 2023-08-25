@@ -4,7 +4,7 @@ export function validator(data, config) {
   function validate(validatemethod, data, config) {
     let statusValidate;
     switch (validatemethod) {
-      case "isRequered": {
+      case "isRequired": {
         if (typeof data === "boolean") {
           statusValidate = !data;
         } else {
@@ -44,10 +44,10 @@ export function validator(data, config) {
         data[fieldName],
         config[fieldName][validatemethod]
       );
-      if (error && !errors[fieldName]){
-        errors[fieldName] = error
+      if (error && !errors[fieldName]) {
+        errors[fieldName] = error;
       }
     }
   }
-  return errors
+  return errors;
 }

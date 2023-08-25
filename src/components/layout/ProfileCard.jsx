@@ -1,10 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
+import { getIsLoggedIn } from "../../store/usersSlice";
 // import { useAuth } from "../../hooks/useAuth";
 // import localStorageService from "../../service/localStorage.service";
 
 const ProfileCard = () => {
   const history = useHistory();
+  const currentUser = useSelector(getIsLoggedIn())
   // const {getOrderById} = useAuth();
   // const handleGetOrder = async () => {
   //   try {
@@ -40,14 +43,14 @@ const ProfileCard = () => {
                 >
                   Посмотреть список заказов
                 </div>
-                <div
+                {currentUser.admin && <div
                   className="btn btn-primary mb-2"
                   style={{width: "100%"}}
                   role="button"
                   onClick={()=> {history.push("/cardaddgood")}}
                 >
                   Войти в панель администратора
-                </div>              
+                </div>}              
                 
                 <div
                   className="d-flex justify-content-end mt-4"

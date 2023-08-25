@@ -8,13 +8,15 @@ import configFile from "../../config/config.json";
 import { useDispatch, useSelector } from "react-redux";
 import { createGood, getGoodsById, updatedGoods } from "../../store/goodsSlice";
 import Button from "../common/Button";
+import { validator } from "../../utils/validator";
+import { validatorConfig } from "../../config/config";
 
 const GoodAddAndUpdate = () => {
   const { cardId } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const initialState = {
+  const initialState = {    
     category: "",
     brand: "",
     brightness: "",
@@ -23,9 +25,10 @@ const GoodAddAndUpdate = () => {
     model: "",
     price: "",
     type: "",
-    access: ""
+    access: "",
   };
   const [data, setData] = useState(initialState);
+  const [errors, setErrors] = useState({})
   const selectGood = useSelector(getGoodsById(cardId));
   useEffect(() => {
     setData((prevState) => ({ ...prevState, ...selectGood }));
@@ -37,9 +40,16 @@ const GoodAddAndUpdate = () => {
       [target.name]: target.value,
     }));
   };
-
+  const validate = () => {
+    const errors = validator(data, validatorConfig);    
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+  const isValid = Object.keys(errors).length === 0;
   const handleSubmit = (e) => {
     e.preventDefault();
+    const isValid = validate();
+    if (!isValid) return; 
     if (cardId) {
       // const newGood = { ...data, id: cardId };
       // dispatch(updatedGoods(newGood.category, cardId, newGood));
@@ -58,6 +68,9 @@ const GoodAddAndUpdate = () => {
       setData(selectGood);
     }
   }, [cardId]);
+  useEffect(() => {
+    validate();
+  }, [data]);  
   return (
     <div className="login">
       <div className="row">
@@ -66,13 +79,14 @@ const GoodAddAndUpdate = () => {
             {cardId ? <h2>Редактировать товар</h2> : <h2>Добавить товар</h2>}
           </div>
           <form onSubmit={handleSubmit}>
-            <div className="mb-4">
+            <div className="mb-4">            
               <SelectField
                 label="Выберите категорию"
                 name="category"
                 value={data.category}
                 onChange={handleChange}
                 options={configFile.category}
+                error={errors.category}
               />
               <TextField
                 label={"Brand"}
@@ -80,9 +94,9 @@ const GoodAddAndUpdate = () => {
                 name={"brand"}
                 value={data.brand}
                 onChange={handleChange}
-                placeholder={"Brand test"}
+                placeholder={"Brand"}
                 id={"brand"}
-                // error={errors.nick}
+                error={errors.brand}
               />
               <TextField
                 label={"Brightness"}
@@ -91,8 +105,7 @@ const GoodAddAndUpdate = () => {
                 value={data.brightness}
                 onChange={handleChange}
                 placeholder={"Brightness"}
-                id={"brightness"}
-                // error={errors.email}
+                id={"brightness"}                
               />
               <TextAreaField
                 label={"Description"}
@@ -101,8 +114,7 @@ const GoodAddAndUpdate = () => {
                 rows={"3"}
                 value={data.description}
                 placeholder={"Description"}
-                onChange={handleChange}
-                // error={errors.content}
+                onChange={handleChange}                
               />
               <TextField
                 label={"Image"}
@@ -111,8 +123,7 @@ const GoodAddAndUpdate = () => {
                 value={data.image}
                 onChange={handleChange}
                 placeholder={"Image"}
-                id={"image"}
-                // error={errors.email}
+                id={"image"}                
               />
               <TextField
                 label={"Model"}
@@ -122,7 +133,7 @@ const GoodAddAndUpdate = () => {
                 onChange={handleChange}
                 placeholder={"Model"}
                 id={"model"}
-                // error={errors.email}
+                error={errors.model}
               />
               <TextField
                 label={"Price"}
@@ -132,7 +143,7 @@ const GoodAddAndUpdate = () => {
                 onChange={handleChange}
                 placeholder={"Price"}
                 id={"price"}
-                // error={errors.email}
+                error={errors.price}
               />
               <TextField
                 label={"Type"}
@@ -142,7 +153,7 @@ const GoodAddAndUpdate = () => {
                 onChange={handleChange}
                 placeholder={"Type"}
                 id={"type"}
-                // error={errors.email}
+                error={errors.type}
               />
               <SelectField
                 label="Доступность"
@@ -150,13 +161,14 @@ const GoodAddAndUpdate = () => {
                 value={data.access}
                 onChange={handleChange}
                 options={["Доступен", "Не доступен"]}
+                error={errors.access}
               />
             </div>
             <div className="d-flex justify-content-between">
               <button
                 type="submit"
                 className="btn btn-primary mb-3"
-                //   disabled={!isValid}
+                  disabled={!isValid}
               >
                 Отправить
               </button>
@@ -165,7 +177,7 @@ const GoodAddAndUpdate = () => {
                 onClick={() => history.push("/cardaddgood")}
               >
                 <i className="bi bi-arrow-left" /> Назад
-              </Button>              
+              </Button>
             </div>
           </form>
         </div>

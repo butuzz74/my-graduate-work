@@ -30,5 +30,35 @@ export const validatorConfig = {
             message: "Пароль должен состоять минимум из 8 символов",
             value: 8
         }
-    }
+    },
+    category: {
+        isRequired: {
+            message: "Поле обязательно для заполнения"
+        }
+    },
+    brand: {
+        isRequired: {
+            message: "Поле обязательно для заполнения"
+        }
+    },
+    model: {
+        isRequired: {
+            message: "Поле обязательно для заполнения"
+        }
+    },
+    price: {
+        isRequired: {
+            message: "Поле обязательно для заполнения"
+        }
+    },
+    type: {
+        isRequired: {
+            message: "Поле обязательно для заполнения"
+        }
+    },
+    access: {
+        isRequired: {
+            message: "Поле обязательно для заполнения"
+        }
+    },
 };

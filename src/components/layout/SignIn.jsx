@@ -3,13 +3,11 @@ import { NavLink, useHistory } from "react-router-dom";
 import { validator } from "../../utils/validator";
 import { validatorConfig } from "../../config/config";
 import TextField from "../form/TextField";
-import { useAuth } from "../../hooks/useAuth";
 import { useDispatch } from "react-redux";
 import { signIn } from "../../store/usersSlice";
 
 const SignIn = () => {
   const dispatch = useDispatch();
-  // const {signIn, currentUser} = useAuth();
   const history = useHistory();
   const [data, setData] = useState({
     email: "",
@@ -29,23 +27,17 @@ const SignIn = () => {
     return Object.keys(errors).length === 0;
   };
   const isValid = Object.keys(errors).length === 0;
-  const handleSubmit =  (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const isValid = validate()
-    if(!isValid) return;
+    const isValid = validate();
+    if (!isValid) return;
     dispatch(signIn(data));
-    history.push("/")    
-    // try {
-    //   await signIn(data);
-    //   history.push("/");
-    // } catch (error) {     
-    //   setErrors(error)
-    // }
-  }  
+    history.push("/");    
+  };
 
   useEffect(() => {
     validate();
-  }, [data]);  
+  }, [data]);
   return (
     <>
       <div className="login">

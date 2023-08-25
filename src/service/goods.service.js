@@ -11,6 +11,10 @@ const goodsService = {
     const { data } = await htppService.get(goodsEndpoint + path + id);
     return data;
   },
+  getAllGood: async (path) => {
+    const { data } = await htppService.get(goodsEndpoint + path);
+    return data;
+  },
   // create: async (path, content) => {
   //   const { data } = await htppService.put(
   //     goodsEndpoint + path + content.id,

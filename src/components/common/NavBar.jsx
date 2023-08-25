@@ -8,7 +8,7 @@ import { clearListOrder } from "../../store/orderSlice";
 const NavBar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const currentUser = useSelector(getIsLoggedIn());
+  const currentUser = useSelector(getIsLoggedIn());  
   const handleLogOut = () => {
     dispatch(logOut());
     dispatch(clearListOrder());

@@ -39,7 +39,6 @@ const SignUp = () => {
   useEffect(() => {
     validate();
   }, [data]);
-
   return (
     <>
       <div className="login">

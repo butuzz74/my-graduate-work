@@ -14,7 +14,7 @@ const Card = ({ card, onCountCart, path, onDelete }) => {
             <h5 className="card-title">Brand: {card.brand}</h5>
             <h5 className="card-title">Type: {card.type}</h5>
             <h5 className="card-title">Model: {card.model}</h5>
-            <p className="card-text">Price: {card.price}</p>
+            <p className="card-text">Price: {card.price}</p>            
 
             {path !== "/cardaddgood" ? (
               <>
