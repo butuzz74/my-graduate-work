@@ -24,9 +24,9 @@ const Pagination = ({ countPage, activePage, onActivePage }) => {
                             }
                             onClick={() => onActivePage(item)}
                         >
-                            <a className="page-link" href="#!">
+                            <button className="page-link">
                                 {item}
-                            </a>
+                            </button>
                         </li>
                     ))}
                 </ul>

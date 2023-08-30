@@ -30,6 +30,7 @@ const TextField = ({
                         error ? "form-control is-invalid" : "form-control"
                     }
                     id={id}
+                    autoComplete={id}
                     placeholder={placeholder}
                 />
                 {type === "password" && (

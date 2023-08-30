@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const CategoriesList = ({ cardsInfo, onCategoryItems, onBack }) => {
-    const categories = [...new Set(cardsInfo.map((card) => card.type))];
+    const categories = [...new Set(cardsInfo.map((card) => card.category))];
 
     const amount = categories.map((cat) =>
         cardsInfo.reduce((sum, card) => {
-            if (card.type === cat) {
+            if (card.category === cat) {
                 sum++;
             }
             return sum;

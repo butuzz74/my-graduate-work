@@ -20,22 +20,23 @@ const ProtectedRoute = ({ component: Component, children, ...rest }) => {
                             }}
                         />
                     );
-                } else if (
-                    rest.admin !== undefined &&
-                    !rest.admin &&
-                    isAccess
-                ) {
-                    return (
-                        <Redirect
-                            to={{
-                                pathname: "/",
-                                state: {
-                                    from: props.location
-                                }
-                            }}
-                        />
-                    );
-                }
+                };
+                // else if (
+                //     rest.admin !== undefined &&
+                //     !rest.admin &&
+                //     isAccess
+                // )                // {
+                //     return (
+                //         <Redirect
+                //             to={{
+                //                 pathname: "/",
+                //                 state: {
+                //                     from: props.location
+                //                 }
+                //             }}
+                //         />
+                //     );
+                // }
                 return Component ? <Component {...props} /> : children;
             }}
         />

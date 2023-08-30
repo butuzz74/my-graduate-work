@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import TextField from "../form/TextField";
+import { useDispatch, useSelector } from "react-redux";
 import { validator } from "../../utils/validator";
 import { validatorConfig } from "../../config/config";
-// import { getCurrentUserId } from "../../service/localStorage.service";
-import { useDispatch, useSelector } from "react-redux";
 import { getIsLoggedIn, updateCurrentUser } from "../../store/usersSlice";
 import localStorageService from "../../service/localStorage.service";
+import TextField from "../form/TextField";
 
 const EditProfile = () => {
     const dispatch = useDispatch();
@@ -33,7 +32,6 @@ const EditProfile = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        // dispatch(updateCurrentUser(getCurrentUserId(), data));
         dispatch(
             updateCurrentUser(localStorageService.getCurrentUserId(), {
                 ...data,

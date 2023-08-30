@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { validator } from "../../utils/validator";
+import { validatorConfig } from "../../config/config";
+import { createGood, getGoodsById, getGoodsById1, loadGoodById, updatedGoods } from "../../store/goodsSlice";
+import configFile from "../../config/config.json";
 import TextField from "../form/TextField";
 import TextAreaField from "../form/TextAreaField";
 import SelectField from "../form/SelectField";
-import configFile from "../../config/config.json";
-import { useDispatch, useSelector } from "react-redux";
-import { createGood, getGoodsById, updatedGoods } from "../../store/goodsSlice";
 import Button from "../common/Button";
-import { validator } from "../../utils/validator";
-import { validatorConfig } from "../../config/config";
 
 const GoodAddAndUpdate = () => {
     const { cardId } = useParams();
@@ -28,10 +28,17 @@ const GoodAddAndUpdate = () => {
     };
     const [data, setData] = useState(initialState);
     const [errors, setErrors] = useState({});
-    const selectGood = useSelector(getGoodsById(cardId));
+    const selectGoodExisting = useSelector(getGoodsById(cardId));
+    useEffect(() => {
+        if (cardId && !selectGoodExisting) {
+            dispatch(loadGoodById(cardId));
+        }
+    }, []);
+    const selectGoodUpdate = useSelector(getGoodsById1());
+    const selectGood = selectGoodExisting || selectGoodUpdate;
     useEffect(() => {
         setData((prevState) => ({ ...prevState, ...selectGood }));
-    }, []);
+    }, [selectGood]);
 
     const handleChange = ({ target }) => {
         setData((prevState) => ({
@@ -50,20 +57,16 @@ const GoodAddAndUpdate = () => {
         const isValid = validate();
         if (!isValid) return;
         if (cardId) {
-            // const newGood = { ...data, id: cardId };
-            // dispatch(updatedGoods(newGood.category, cardId, newGood));
             const newGood = { ...data };
             dispatch(updatedGoods(cardId, newGood));
         } else {
-            // const newGood = { ...data, id: nanoid() };
-            // dispatch(createGood(newGood.category + "/", newGood));
             const newGood = { ...data };
             dispatch(createGood(newGood));
         }
         history.push("/cardaddgood");
     };
     useEffect(() => {
-        if (cardId) {
+        if (cardId && selectGood) {
             setData(selectGood);
         }
     }, [cardId]);

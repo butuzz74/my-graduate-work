@@ -1,11 +1,10 @@
-import React, { useRef } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import getTooltip from "../../utils/tooltip";
+import { Tooltip } from "react-tooltip";
+
 import "../../css/tooltip.css";
 
 const Cart = ({ countCart, getAccessInCart, onClearCart }) => {
-    const ref = useRef();
-
     return (
         <div
             className="nav-link text-decoration-underline"
@@ -26,13 +25,12 @@ const Cart = ({ countCart, getAccessInCart, onClearCart }) => {
                         ? "bi bi-trash ms-1"
                         : "bi bi-trash-fill ms-1"
                 }
-                ref={ref}
-                data-bs-toggle={getTooltip(ref)}
-                data-bs-custom-class="custom-tooltip"
-                data-bs-title="Очистить корзину"
+                data-tooltip-id="trash"
+                data-tooltip-content="Очистить корзину!"
                 role="button"
                 onClick={onClearCart}
             ></i>
+            <Tooltip id="trash" style={{ backgroundColor: "#6610f2", zIndex: "1000" }} />
         </div>
     );
 };

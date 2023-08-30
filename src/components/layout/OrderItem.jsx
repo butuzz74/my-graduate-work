@@ -1,19 +1,29 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
-import { getOrderItemById } from "../../store/orderSlice";
-import TableHeader from "../table/TableHeader";
+import { getOrderItemById, orderListCurrentUser } from "../../store/orderSlice";
 import configFile from "../../config/config.json";
+import TableHeader from "../table/TableHeader";
 import TableBodyForOrderItem from "../table/TableBodyForOrderItem";
 import Button from "../common/Button";
+import localStorageService from "../../service/localStorage.service";
 
 const OrderItem = () => {
     const history = useHistory();
+    const dispatch = useDispatch();
     const { orderId } = useParams();
-    const orderItem = useSelector(getOrderItemById(orderId));
+    const orderItemExisting = useSelector(getOrderItemById(orderId));
+    useEffect(() => {
+        if (!orderItemExisting) {
+            const userId = localStorageService.getCurrentUserId();
+            dispatch(orderListCurrentUser(userId));
+        }
+    }, []);
+    const orderItemUpdate = useSelector(getOrderItemById(orderId));
+    const orderItem = orderItemExisting || orderItemUpdate;
 
     return (
-        <>
+        orderItem && <>
             <div className="login d-flex justify-content-center align-items-center">
                 <div className="row justify-content-md-center">
                     <div className="col-md-auto md-3 p-4 shadow mt-5 bg-white mb-5 rounded-4">

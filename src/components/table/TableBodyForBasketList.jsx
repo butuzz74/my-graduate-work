@@ -1,7 +1,7 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import configFile from "../../config/config.json";
-import { useDispatch } from "react-redux";
 import {
     deleteGood,
     dicrementGood,

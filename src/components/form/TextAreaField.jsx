@@ -32,7 +32,7 @@ const TextAreaField = ({
 TextAreaField.propTypes = {
     name: PropTypes.string,
     id: PropTypes.string,
-    rows: PropTypes.number,
+    rows: PropTypes.string,
     value: PropTypes.string,
     onChange: PropTypes.func,
     label: PropTypes.string,

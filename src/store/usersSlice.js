@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import localStorageService from "../service/localStorage.service";
 import authService from "../service/auth.service";
 import userService from "../service/user.service";
+import { toast } from "react-toastify";
 
 const initialState = localStorageService.getAccessToken()
     ? {
@@ -77,22 +78,16 @@ export const signUp =
                 localStorageService.setTokens(data);
                 dispatch(authRequestSuccess({ userId: data.userId }));
                 const content = await userService.get(data.userId);
-                // const content = await userService.create({
-                //   _id: data.userId,
-                //   email,
-                //   password,
-                //   nick,
-                //   ...rest,
-                // });
                 dispatch(currentUserCreated(content));
             } catch (error) {
                 dispatch(authRequestFailed(error.message));
                 const { code, message } = error.response.data.error;
                 if (code === 400) {
-                    if (message === "EMAIL_EXISTS") {
+                    if (message === "EMAIL_EXIST") {
                         const errorObject = {
                             email: "Пользователь с таким email уже существует"
                         };
+                        toast(errorObject.email);
                         throw errorObject;
                     }
                 }
@@ -117,12 +112,14 @@ export const signIn =
                         const errorObject = {
                             email: "Пользователь с таким email не зарегестрирован. Зарегистрируйтесь!"
                         };
+                        toast(errorObject.email);
                         throw errorObject;
                     }
-                    if (message === "INVALID_PASSWORD") {
+                    if (message === "PASSWORD_UNCORRECT") {
                         const errorObject = {
                             password: "Не правильный пароль!"
                         };
+                        toast(errorObject.password);
                         throw errorObject;
                     }
                 }
