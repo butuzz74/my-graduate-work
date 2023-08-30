@@ -1,23 +1,21 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
-import { getIsLoggedIn } from "../../store/usersSlice";
-// import { useAuth } from "../../hooks/useAuth";
-// import localStorageService from "../../service/localStorage.service";
+import { getCurrentUser, getIsLoggedIn } from "../../store/usersSlice";
 
 const ProfileCard = () => {
     const history = useHistory();
-    const currentUser = useSelector(getIsLoggedIn());
-    // const {getOrderById} = useAuth();
-    // const handleGetOrder = async () => {
-    //   try {
-    //     await getOrderById(localStorageService.getCurrentUserId())
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // }
+    const dispatch = useDispatch();
+    const currentUserExisting = useSelector(getIsLoggedIn());
+    useEffect(() => {
+        if (currentUserExisting === null) {
+            dispatch(getCurrentUser());
+        }
+    }, []);
+    const currentUserNewExisting = useSelector(getIsLoggedIn());
+    const currentUser = currentUserExisting || currentUserNewExisting;
     return (
-        <>
+        currentUser && <>
             <div className="login d-flex justify-content-center align-items-center">
                 <div className="row justify-content-md-center">
                     <div className="col-md-auto md-3 p-4 shadow mt-5 bg-white mb-5 rounded-4">
@@ -40,7 +38,6 @@ const ProfileCard = () => {
                                     className="btn btn-primary mb-2"
                                     style={{ width: "100%" }}
                                     role="button"
-                                    // onClick={handleGetOrder}
                                     onClick={() => {
                                         history.push("/orderslist");
                                     }}

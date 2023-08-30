@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
-// import OrderItem from "../order/orderItem";
-import localStorageService from "../../service/localStorage.service";
 import { NavLink } from "react-router-dom";
-import TableHeader from "../table/TableHeader";
-import TableBody from "../table/TableBody";
 import { useDispatch, useSelector } from "react-redux";
+import localStorageService from "../../service/localStorage.service";
+import configFile from "../../config/config.json";
 import {
     getOrderListCurrentUser,
     getOrderLoadingStatus,
     orderListCurrentUser
 } from "../../store/orderSlice";
-import configFile from "../../config/config.json";
+import TableHeader from "../table/TableHeader";
+import TableBody from "../table/TableBody";
 import Loader from "../common/Loader";
 
 const OrdersList = () => {
@@ -62,7 +61,15 @@ const OrdersList = () => {
                                     )
                                     : order && order.length === 0
                                         ? (
-                                            <h2>У Вас не было еще заказов!</h2>
+                                            <>
+                                                <h2>У Вас не было еще заказов!</h2>
+                                                <NavLink
+                                                    to="/"
+                                                    className="btn btn-primary mt-3"
+                                                >
+                                            На главную страницу
+                                                </NavLink>
+                                            </>
                                         )
                                         : (
                                             <Loader />

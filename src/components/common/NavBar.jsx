@@ -1,9 +1,9 @@
 import React from "react";
 import { NavLink, useHistory } from "react-router-dom";
-import Avatar from "./Avatar";
 import { useDispatch, useSelector } from "react-redux";
 import { getIsLoggedIn, logOut } from "../../store/usersSlice";
 import { clearListOrder } from "../../store/orderSlice";
+import Avatar from "./Avatar";
 
 const NavBar = () => {
     const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const NavBar = () => {
                             activeClassName="selected"
                             style={{ color: "white" }}
                         >
-                            Payment and delivery
+                            Оплата и доставка
                         </NavLink>
                     </li>
                     <li className="nav-item">
@@ -39,7 +39,7 @@ const NavBar = () => {
                             activeClassName="selected"
                             style={{ color: "white" }}
                         >
-                            About us
+                            О нас
                         </NavLink>
                     </li>
                     <li className="nav-item">
@@ -49,7 +49,7 @@ const NavBar = () => {
                             activeClassName="selected"
                             style={{ color: "white" }}
                         >
-                            Contacts
+                            Контакты
                         </NavLink>
                     </li>
                     <li className="nav-item">
@@ -59,7 +59,7 @@ const NavBar = () => {
                             activeClassName="selected"
                             style={{ color: "white" }}
                         >
-                            Sign in/Sign up
+                            Войти/Зарегистрироваться
                         </NavLink>
                     </li>
                 </ul>

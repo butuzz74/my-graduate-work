@@ -1,27 +1,22 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import configFile from "../../config/config.json";
 import { displayDate } from "../../utils/displayDate";
-import { useHistory } from "react-router-dom";
 
 const TableBodyForOrderItem = ({ data }) => {
     const history = useHistory();
-    // const newData = data.content.map((el, index) => ({
-    //   pos: index + 1,
-    //   idOrder: number,
-    //   dateOrder: displayDate(data.info.time),
-    //   namePos: el.model,
-    //   price: el.price,
-    //   amount: el.amount,
-    //   sumOrder: +(el.price.split(" ").join("")) * +el.amount,
-    // }));
     const newData = data.content.map((el, index) => ({
         pos: index + 1,
         idOrder: el._id,
         dateOrder: displayDate(data.time),
         namePos: el.model,
         price: el.price,
-        amount: el.amount,
+        amount: (
+            <div className="d-flex justify-content-center align-items-center">
+                {el.amount}
+            </div>
+        ),
         sumOrder: +el.price.split(" ").join("") * +el.amount
     }));
     return (

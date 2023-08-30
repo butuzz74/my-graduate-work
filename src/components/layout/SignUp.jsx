@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { validator } from "../../utils/validator";
 import { validatorConfig } from "../../config/config";
-import TextField from "../form/TextField";
-import { useDispatch } from "react-redux";
 import { signUp } from "../../store/usersSlice";
+import TextField from "../form/TextField";
 
 const SignUp = () => {
     const dispatch = useDispatch();
@@ -98,8 +98,7 @@ const SignUp = () => {
                                     className="nav-link text-decoration-underline d-flex justify-content-center"
                                 >
                                     {" "}
-                                    <i className="bi bi-arrow-left" /> Back to
-                                    main page
+                                    На гавную страницу
                                 </NavLink>
                             </button>
                         </div>

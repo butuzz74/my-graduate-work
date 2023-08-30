@@ -1,5 +1,4 @@
 export function displayDate(data) {
-    // const date = new Date(parseInt(data));
     const date = new Date(data);
     return (
         date.getFullYear() +

@@ -1,11 +1,11 @@
 import React from "react";
 import { NavLink, useHistory } from "react-router-dom";
-import TableHeader from "../table/TableHeader";
+import { useDispatch, useSelector } from "react-redux";
 import configFile from "../../config/config.json";
 import localStorageService from "../../service/localStorage.service";
-import { useDispatch, useSelector } from "react-redux";
 import { clearCart, getSelectedGood } from "../../store/cartSlice";
 import { sendOrder } from "../../store/orderSlice";
+import TableHeader from "../table/TableHeader";
 import TableBodyForBasketList from "../table/TableBodyForBasketList";
 import Button from "../common/Button";
 
@@ -19,19 +19,17 @@ const BasketList = () => {
     }, 0);
 
     const handleSendOrder = async() => {
-        const a = selectedGood.map((e) => ({ amount: e.amount, _id: e._id }));
-        // const infoOrder = { totalPriceOrder, time: Date.now() };
-        // const infoOrder = { totalPriceOrder };
-        const y = {
+        const goodInfo = selectedGood.map((e) => ({
+            amount: e.amount,
+            _id: e._id
+        }));
+        const orderInfo = {
             userId: localStorageService.getCurrentUserId(),
-            content: a,
+            content: goodInfo,
             totalPriceOrder
         };
 
-        dispatch(
-            // sendOrder(localStorageService.getCurrentUserId(), selectedGood, infoOrder)
-            sendOrder(y)
-        );
+        dispatch(sendOrder(orderInfo));
         dispatch(clearCart());
         history.push("/");
     };

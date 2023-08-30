@@ -10,13 +10,6 @@ const SelectField = ({
     error,
     name
 }) => {
-    // const optionsArr =
-    //     !Array.isArray(options) && typeof options === "object"
-    //         ? Object.values(options)
-    //         : options;
-    // const handleChange = ({ target }) => {
-    //     onChange({ name: target.name, value: target.value });
-    // };
     const getInvalidClasses = () => {
         return `form-control + ${error ? "is-invalid" : ""}`;
     };

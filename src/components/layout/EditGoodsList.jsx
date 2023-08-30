@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import CardList from "../main/CardList";
-import Pagination from "../main/Pagination";
-import Search from "../main/Search";
-import CategoriesList from "../main/CategoriesList";
 import { useDispatch, useSelector } from "react-redux";
 import {
     deleteGoods,
@@ -11,6 +7,10 @@ import {
     getGoodsRedux,
     loadGoodsForAdmin
 } from "../../store/goodsSlice";
+import CardList from "../main/CardList";
+import Pagination from "../main/Pagination";
+import Search from "../main/Search";
+import CategoriesList from "../main/CategoriesList";
 import Button from "../common/Button";
 import Loader from "../common/Loader";
 
@@ -21,16 +21,12 @@ const EditGoodsList = () => {
     const history = useHistory();
     const path = location.pathname;
     const countItemOnPage = 4;
-    // const goodsRedux = useSelector(getGoodsRedux());
     const [goods, setGoods] = useState([]);
     const [cardsCategory, setCardsCategory] = useState();
     const [cardChoice, setCardsChoice] = useState([]);
     const [activePage, setActivePage] = useState(1);
     const [value, setValue] = useState("");
 
-    // useEffect(() => {
-    //   setGoods(goodsRedux);
-    // }, [goodsRedux]);
     useEffect(() => {
         dispatch(loadGoodsForAdmin(path));
     }, []);
@@ -39,7 +35,7 @@ const EditGoodsList = () => {
         setGoods(goodsRedux);
     }, [goodsRedux]);
     const handleCategoryItems = (cat) => {
-        setCardsCategory(goods.filter((card) => card.type === cat));
+        setCardsCategory(goods.filter((card) => card.category === cat));
         setActivePage(1);
     };
     const handleOnBack = () => {
@@ -48,10 +44,6 @@ const EditGoodsList = () => {
     const handleOnSearch = (e) => {
         setValue(e.target.value);
     };
-
-    // const handleDeleteGood = (path, id) => {
-    //   dispatch(deleteGoods(path, id));
-    // };
     const handleDeleteGood = (id) => {
         dispatch(deleteGoods(id));
     };

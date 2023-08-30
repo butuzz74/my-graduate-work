@@ -1,6 +1,14 @@
 import React, { useEffect } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { MainPageContextProvider } from "./context/context";
+import AuthProvider from "./hooks/useAuth";
+import { ToastContainer } from "react-toastify";
+import { getCurrentUser, getIsLoggedIn } from "./store/usersSlice";
+import localStorageService from "./service/localStorage.service";
+import "react-toastify/dist/ReactToastify.css";
+import { loadGoods } from "./store/goodsSlice";
+
 import Main from "./components/layout/Main";
 import NotFound from "./components/layout/NotFound";
 import SignUp from "./components/layout/SignUp";
@@ -12,19 +20,12 @@ import PaymentAndDelivery from "./components/layout/PaymentAndDelivery";
 import NavBar from "./components/common/NavBar";
 import Footer from "./components/common/Footer";
 import BasketList from "./components/layout/BasketList";
-import { MainPageContextProvider } from "./context/context";
-import AuthProvider from "./hooks/useAuth";
-import { ToastContainer, toast } from "react-toastify";
 import ProfileCard from "./components/layout/ProfileCard";
 import EditProfile from "./components/layout/EditProfile";
 import OrdersList from "./components/layout/OrdersList";
 import OrderCard from "./components/order/OrderCard";
 import EditGoodsList from "./components/layout/EditGoodsList";
-import { getCurrentUser, getIsLoggedIn } from "./store/usersSlice";
-import localStorageService from "./service/localStorage.service";
 import OrderItem from "./components/layout/OrderItem";
-import "react-toastify/dist/ReactToastify.css";
-import { loadGoods } from "./store/goodsSlice";
 import GoodAddAndUpdate from "./components/layout/GoodAddAndUpdate";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
 
@@ -33,7 +34,6 @@ function App() {
     const currentUser = useSelector(getIsLoggedIn());
     useEffect(() => {
         dispatch(loadGoods());
-        toast("Загрузка произошла успешно!");
         if (localStorageService.getAccessToken()) {
             dispatch(getCurrentUser());
         }
@@ -45,7 +45,6 @@ function App() {
                 <div className="innercontent">
                     <MainPageContextProvider>
                         <Switch>
-                            <Route path="/" exact component={Main} />
                             <ProtectedRoute
                                 path="/order/:orderId"
                                 component={OrderItem}
@@ -94,7 +93,9 @@ function App() {
                             <Route path="/aboutUs" component={AboutUs} />
                             <Route path="/signin" component={SignIn} />
                             <Route path="/:cardId" component={CardItem} />
-                            <Route component={NotFound} />
+                            <Route path="/" exact component={Main} />
+                            <Route path= "/404" component={NotFound} />
+                            <Redirect to="/404"/>
                         </Switch>
                     </MainPageContextProvider>
                 </div>

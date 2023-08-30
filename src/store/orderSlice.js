@@ -57,7 +57,6 @@ export const sendOrder = (data) => async(dispatch) => {
     }
 };
 export const getOrderListCurrentUser = () => (state) => state.order.entities;
-// export const getOrderItemById = (id) => (state) => state.order.entities[id]
 export const getOrderItemById = (id) => (state) => {
     if (state.order.entities) {
         return state.order.entities.find((u) => u._id === id);

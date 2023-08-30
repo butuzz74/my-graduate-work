@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { validator } from "../../utils/validator";
 import { validatorConfig } from "../../config/config";
-import TextField from "../form/TextField";
-import { useDispatch } from "react-redux";
 import { signIn } from "../../store/usersSlice";
+import TextField from "../form/TextField";
 
 const SignIn = () => {
     const dispatch = useDispatch();
@@ -44,7 +44,7 @@ const SignIn = () => {
                 <div className="row">
                     <div className="col-md-6 offset-md-3 p-4 shadow mt-5 bg-transparent text-white">
                         <div className="d-flex justify-content-center">
-                            <h2>Login</h2>
+                            <h2>Войти</h2>
                         </div>
                         <form onSubmit={handleSubmit}>
                             <div className="mb-4">
@@ -87,7 +87,7 @@ const SignIn = () => {
                                     className="nav-link text-decoration-underline d-flex justify-content-center text-white"
                                 >
                                     {" "}
-                                    Sign up
+                                    Зарегистрироваться
                                 </NavLink>
                             </button>
                             <button type="button" className="btn btn-primary">
@@ -96,8 +96,7 @@ const SignIn = () => {
                                     className="nav-link text-decoration-underline d-flex justify-content-center"
                                 >
                                     {" "}
-                                    <i className="bi bi-arrow-left" /> Back to
-                                    main page
+                                    На главную страницу
                                 </NavLink>
                             </button>
                         </div>

@@ -1,10 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import Search from "../main/Search";
-import CategoriesList from "../main/CategoriesList";
-import CardList from "../main/CardList";
-import Pagination from "../main/Pagination";
-import Cart from "../main/Cart";
-import { MainPageContext } from "../../context/context";
 import { useDispatch, useSelector } from "react-redux";
 import { addGood, clearCart, getCountCart } from "../../store/cartSlice";
 import {
@@ -12,12 +6,17 @@ import {
     getGoodsRedux,
     loadGoods
 } from "../../store/goodsSlice";
+import Search from "../main/Search";
+import CategoriesList from "../main/CategoriesList";
+import CardList from "../main/CardList";
+import Pagination from "../main/Pagination";
+import Cart from "../main/Cart";
+import { MainPageContext } from "../../context/context";
 import Loader from "../common/Loader";
 
 const Main = () => {
     const dispatch = useDispatch();
     const isGoodLoading = useSelector(getGoodsLoadingStatus());
-    // const goods = useSelector(getGoodsRedux());
     const countCart = useSelector(getCountCart());
     const { getAccessInCart } = useContext(MainPageContext);
     const countItemOnPage = 4;
@@ -36,7 +35,7 @@ const Main = () => {
     }, [goodsRedux]);
 
     const handleCategoryItems = (cat) => {
-        setCardsCategory(goods.filter((card) => card.type === cat));
+        setCardsCategory(goods.filter((card) => card.category === cat));
         setActivePage(1);
     };
 
